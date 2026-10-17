@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Procurement Audit Planner</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<style>
+:root{--bg:#f6f7f9;--panel:#fff;--ink:#1c2430;--muted:#5d6878;--line:#dfe3ea;--accent:#2457c5;--accent-ink:#fff;
+--ok:#1f7a45;--ok-bg:#e5f4ea;--warn:#8a5a00;--warn-bg:#fdf1d8;--bad:#a8261b;--bad-bg:#fbe6e3;--code:#f1f3f6}
+@media (prefers-color-scheme:dark){:root{--bg:#12161c;--panel:#1a2029;--ink:#e6eaf0;--muted:#9aa5b4;--line:#2c3542;
+--accent:#6e9bff;--accent-ink:#0b1220;--ok:#6fd39a;--ok-bg:#16301f;--warn:#f0c46a;--warn-bg:#33290f;--bad:#ff8f84;--bad-bg:#3a1714;--code:#222a35}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{padding:18px 16px;border-bottom:1px solid var(--line);background:var(--panel)}
+header h1{margin:0;font-size:20px}header p{margin:4px 0 0;color:var(--muted);font-size:14px;max-width:900px}
+.wrap{max-width:1280px;margin:0 auto;padding:16px;display:grid;grid-template-columns:360px 1fr;gap:16px}
+@media (max-width:900px){.wrap{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px}
+.card h2{font-size:15px;margin:0 0 8px}.muted{color:var(--muted);font-size:13px}
+.step{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}.step:first-of-type{border-top:0}
+.dot{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;background:var(--code);color:var(--muted)}
+.dot.ok{background:var(--ok-bg);color:var(--ok)}.dot.run{background:var(--warn-bg);color:var(--warn)}
+.step .body{flex:1;min-width:0}.step .t{font-weight:600;font-size:14px}.step .d{color:var(--muted);font-size:12.5px}
+button{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:7px;padding:5px 10px;cursor:pointer}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}button:disabled{opacity:.5;cursor:not-allowed}
+.pill{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;background:var(--code);color:var(--muted);margin:2px 4px 2px 0}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}.pill.bad{background:var(--bad-bg);color:var(--bad)}.pill.warn{background:var(--warn-bg);color:var(--warn)}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}.tabs button{border-radius:7px}.tabs button.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.log{font:12.5px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;max-height:70vh;overflow:auto;background:var(--code);border-radius:8px;padding:10px}
+.ev{padding:3px 0;border-bottom:1px dashed var(--line);white-space:pre-wrap;word-break:break-word}.ev b{font-weight:600}
+.ev.message{color:var(--accent)}.ev.error{color:var(--bad)}.ev.tool{color:var(--muted)}.ev.result{color:var(--ok)}
+.files{display:grid;grid-template-columns:280px 1fr;gap:12px}@media (max-width:700px){.files{grid-template-columns:1fr}}
+.flist{max-height:70vh;overflow:auto;font-size:13px}.flist div{padding:3px 6px;border-radius:5px;cursor:pointer;word-break:break-all}.flist div:hover,.flist div.on{background:var(--code)}
+.flist .grp{font-weight:700;cursor:default;margin-top:8px;color:var(--muted)}.flist .grp:hover{background:none}
+.doc{max-height:70vh;overflow:auto;font-size:14px;min-width:0}.doc table{border-collapse:collapse;font-size:12.5px;display:block;overflow-x:auto}
+.doc th,.doc td{border:1px solid var(--line);padding:4px 6px;vertical-align:top}.doc pre{background:var(--code);padding:10px;border-radius:8px;overflow:auto;font-size:12px}
+.doc code{background:var(--code);padding:1px 4px;border-radius:4px}
+table.gate{width:100%;border-collapse:collapse;font-size:13px}table.gate td,table.gate th{border-bottom:1px solid var(--line);padding:6px;text-align:left;vertical-align:top}
+input,select,textarea{font:inherit;font-size:13px;padding:5px 7px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);width:100%}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row>*{flex:1;min-width:140px}
+.banner{padding:10px 12px;border-radius:8px;margin-bottom:12px;font-size:14px}.banner.warn{background:var(--warn-bg);color:var(--warn)}.banner.bad{background:var(--bad-bg);color:var(--bad)}.banner.ok{background:var(--ok-bg);color:var(--ok)}
+pre.out{white-space:pre-wrap;font-size:12px;background:var(--code);padding:10px;border-radius:8px;max-height:50vh;overflow:auto}
+</style>
+</head>
+<body>
+<header>
+  <h1>Procurement Audit Planner · West Berkshire Council</h1>
+  <p>A hosted agent harness that plans an internal audit of procurement from public data. It extracts the purchasing rules, analyses the full spend population, reads past audit history, rates the risks, stops for the auditor's approval, and runs a three-agent team to build and cross-check the audit planning pack before sign-off. Outputs are <b>risk indicators to investigate</b>, not findings of wrongdoing.</p>
+</header>
+<div class="wrap">
+  <aside>
+    <div id="banners"></div>
+    <div class="card">
+      <h2>Workflow</h2>
+      <div id="steps"></div>
+    </div>
+    <div class="card">
+      <h2>Access</h2>
+      <p class="muted">Viewing is open. Running agents, recording gate decisions and signing off need the passcode.</p>
+      <div class="row"><input id="pass" type="password" placeholder="Passcode"><button id="savepass">Unlock</button></div>
+      <p class="muted" id="passmsg"></p>
+      <p class="muted" id="meta"></p>
+      <div class="row" style="margin-top:6px">
+        <button onclick="resetWs('saved')">Reset to saved run</button>
+        <button onclick="resetWs('fresh')">Start fresh (empty outputs)</button>
+      </div>
+    </div>
+  </aside>
+  <main>
+    <div class="tabs" id="tabs">
+      <button data-tab="log" class="on">Live run</button><button data-tab="files">Outputs</button>
+      <button data-tab="gate">Auditor gate</button><button data-tab="signoff">Sign-off</button>
+      <button data-tab="history">Run history</button><button data-tab="about">How it works</button>
+    </div>
+    <section class="card" id="tab-log">
+      <div class="row" style="justify-content:space-between"><h2 id="runtitle" style="flex:3">No run selected</h2>
+        <button id="stopbtn" onclick="stopRun()" style="flex:none">Stop run</button></div>
+      <p class="muted" id="runmeta"></p>
+      <div class="log" id="log"><span class="muted">Start a stage from the workflow on the left, or open a past run from Run history. The saved, signed-off run is preloaded: see Outputs.</span></div>
+    </section>
+    <section class="card" id="tab-files" hidden>
+      <div class="files"><div class="flist" id="flist"></div><div class="doc" id="doc"><p class="muted">Pick a file. Start with <b>outputs/review.md</b>, <b>outputs/planning-memo.md</b> or <b>outputs/risk-register.md</b>.</p></div></div>
+    </section>
+    <section class="card" id="tab-gate" hidden>
+      <h2>Human gate 1: approve the risk register</h2>
+      <p class="muted">One decision per risk: <b>Approve</b> (in scope as rated), <b>Amend</b> (say what to change) or <b>Reject</b> (out of scope; say why). Save, then run step 4 to have the risk-assessor build the next register revision. The agent team cannot start until every risk is decided on a revised register.</p>
+      <div id="gatebody"></div>
+    </section>
+    <section class="card" id="tab-signoff" hidden>
+      <h2>Human gate 2: sign off the pack</h2>
+      <div id="signbody"></div>
+    </section>
+    <section class="card" id="tab-history" hidden><h2>Run history</h2><div id="hist"></div></section>
+    <section class="card doc" id="tab-about" hidden>
+      <h2>How it works</h2>
+      <p>The harness runs the project's own Claude Code skills and agents (<code>.claude/skills</code>, <code>.claude/agents</code>) with the Claude Agent SDK on a server, against a workspace copy of the public data. Every number comes from Python the agents write and run; every quote, figure and sampled transaction is re-checked by scripts.</p>
+      <ol>
+        <li><b>extract-rules</b> (skill): Contract Procedure Rules PDF → <code>rules.json</code>, quotes verified word for word.</li>
+        <li><b>spend-analyst</b> + <b>findings-analyst</b> (sub-agents, in parallel): three months of spend + Contracts Finder notices → <code>analytics.json</code>; Governance Committee papers → <code>history.json</code>.</li>
+        <li><b>risk-assessor</b> (sub-agent + risk-assessment skill): cited likelihood × impact ratings on the council's own scale → <code>risk-register.md</code> and the auditor's decision template.</li>
+        <li><b>Human gate</b>: the auditor approves / amends / rejects each risk here; the risk-assessor builds the next revision.</li>
+        <li><b>Agent team</b>: <i>planner</i> builds the pack (memo, risk-control matrix, audit program, targeted samples); <i>challenger</i> challenges weak spots for up to two rounds; <i>qa-reviewer</i> runs the four check scripts and blocks sign-off until all pass. The teammates message each other through a tool the harness provides; the harness is the lead.</li>
+        <li><b>Human gate</b>: the auditor reads the review and the challenger's points for the auditor, then signs off or returns the pack.</li>
+      </ol>
+    </section>
+  </main>
+</div>
+<script>
+const $=s=>document.querySelector(s);let ST=null,CUR=null,SINCE=0,TIMER=null;
+let PASS=(()=>{try{return localStorage.getItem('pass')||''}catch(e){return''}})();$('#pass').value=PASS;
+async function api(path,opt={}){opt.headers=Object.assign({'Content-Type':'application/json','X-Passcode':PASS},opt.headers||{});
+  const r=await fetch(path,opt);let j={};try{j=await r.json()}catch(e){}if(!r.ok)throw new Error(j.error||r.statusText);return j}
+$('#savepass').onclick=async()=>{PASS=$('#pass').value.trim();try{localStorage.setItem('pass',PASS)}catch(e){}
+  try{await api('/api/passcode',{method:'POST'});$('#passmsg').textContent='Unlocked.'}catch(e){$('#passmsg').textContent=e.message}};
+document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+function showTab(t){document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab==t));
+  document.querySelectorAll('main>section').forEach(s=>s.hidden=s.id!='tab-'+t);
+  if(t=='files')loadFiles();if(t=='gate')loadGate();if(t=='signoff')loadSign();if(t=='history')loadHist()}
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const STEPS=[
+ ['extract-rules','Extract rules','Skill: rulebook PDF → rules.json (verified quotes)','extract-rules'],
+ ['analysts','Analyse spend + history','Sub-agents in parallel: analytics.json, history.json','analysts'],
+ ['risk-assessor','Rate the risks','Sub-agent: risk-register.md + decision template','risk-assessor'],
+ ['gate','Auditor gate','Record decisions, then revise the register','revise-register'],
+ ['team','Agent team builds the pack','planner · challenger · qa-reviewer','team'],
+ ['signoff','Auditor sign-off','Human sign-off in review.md',null]];
+async function refresh(){try{ST=await api('/api/status')}catch(e){return}
+  const b=[];if(!ST.api_key)b.push('<div class="banner bad">The server has no ANTHROPIC_API_KEY yet, so agent runs are disabled. Saved outputs are viewable.</div>');
+  if(ST.active_run)b.push(`<div class="banner warn">A run is in progress: <a href="#" onclick="openRun('${ST.active_run}');return false">watch it</a>.</div>`);
+  const v=ST.review.verdict||'';if(v)b.push(`<div class="banner ${v.includes('READY')?'ok':'bad'}">QA verdict: <b>${esc(v)}</b>${ST.review.signoff['Signed off by']?` · signed off by ${esc(ST.review.signoff['Signed off by'])} (${esc(ST.review.signoff['Date'])}): ${esc(ST.review.signoff['Decision'])}`:' · awaiting sign-off'}</div>`);
+  $('#banners').innerHTML=b.join('');
+  const signed=!!ST.review.signoff?.['Signed off by'];
+  $('#steps').innerHTML=STEPS.map(([k,t,d,stage],i)=>{const done=k=='signoff'?signed:ST.stages[k];
+    const running=ST.active_run&&stage&&RUNSTAGE[ST.active_run]==stage;
+    let extra='';if(k=='gate')extra=`<div class="d">Register revision ${ST.register_revision??'–'} · gate ${ST.stages.gate?'closed ✓':'open'}</div>`;
+    if(k=='team'&&Object.keys(ST.challenges).length)extra=`<div class="d">Challenges: ${Object.entries(ST.challenges).map(([s,n])=>n+' '+s).join(', ')}</div>`;
+    const btn=stage?`<button class="${done?'':'primary'}" ${(!ST.api_key||ST.active_run)?'disabled':''} onclick="startRun('${stage}')">${stage=='revise-register'?'Revise register':(done?'Re-run':'Run')}</button>`
+      :`<button onclick="showTab('signoff')">Open</button>`;
+    const gbtn=k=='gate'?` <button onclick="showTab('gate')">Decisions</button>`:'';
+    return `<div class="step"><div class="dot ${running?'run':done?'ok':''}">${running?'…':done?'✓':i+1}</div><div class="body"><div class="t">${t}</div><div class="d">${d}</div>${extra}<div style="margin-top:5px">${btn}${gbtn}</div></div></div>`}).join('');
+  $('#meta').textContent=`Model ${ST.model} · API spend so far $${ST.spent_usd} of $${ST.max_total_usd} cap`;
+  if(ST.active_run&&!CUR)openRun(ST.active_run)}
+const RUNSTAGE={};
+async function startRun(stage){if(stage=='team'&&!confirm('Run the agent team? This rebuilds the planning pack and takes 10–30 minutes.'))return;
+  if(stage!='team'&&!confirm('Start this stage? It overwrites that stage\'s outputs and takes several minutes.'))return;
+  try{const r=await api('/api/run/'+stage,{method:'POST'});RUNSTAGE[r.id]=stage;showTab('log');openRun(r.id);refresh()}catch(e){alert(e.message)}}
+async function stopRun(){if(!CUR)return;try{await api('/api/stop',{method:'POST'})}catch(e){alert(e.message)}}
+function openRun(id){CUR=id;SINCE=0;$('#log').innerHTML='';showTab('log');clearTimeout(TIMER);poll()}
+async function poll(){if(!CUR)return;let r;try{r=await api(`/api/runs/${CUR}?since=${SINCE}`)}catch(e){return}
+  RUNSTAGE[r.id]=r.stage;const L=$('#log'),stick=L.scrollTop+L.clientHeight>=L.scrollHeight-30;
+  for(const e of r.events){const d=document.createElement('div');d.className='ev '+e.kind;
+    d.innerHTML=`<span class="muted">${e.t}s</span> <b>[${esc(e.agent)}]</b> ${esc(e.text)}`;L.appendChild(d)}
+  SINCE=r.n_events;if(stick)L.scrollTop=L.scrollHeight;
+  $('#runtitle').textContent=`Run ${r.id} · ${ST?.stage_labels?.[r.stage]||r.stage}`;
+  $('#runmeta').innerHTML=`<span class="pill ${r.status=='ok'?'ok':r.status=='running'?'warn':'bad'}">${r.status}</span> cost $${r.cost_usd.toFixed(2)} ${r.summary?'· '+esc(r.summary):''}`;
+  $('#stopbtn').disabled=r.status!='running';
+  if(r.status=='running')TIMER=setTimeout(poll,2500);else refresh()}
+async function loadFiles(){const fs=await api('/api/files');const groups={};
+  fs.forEach(f=>{const g=f.path.split('/').slice(0,f.path.startsWith('.claude')?2:1).join('/');(groups[g]=groups[g]||[]).push(f)});
+  $('#flist').innerHTML=Object.entries(groups).map(([g,l])=>`<div class="grp">${esc(g)}</div>`+l.map(f=>`<div data-p="${esc(f.path)}" data-v="${f.viewable}">${esc(f.path.slice(g.length+1)||f.path)} <span class="muted">${(f.size/1024).toFixed(0)}k</span></div>`).join('')).join('');
+  $('#flist').querySelectorAll('div[data-p]').forEach(d=>d.onclick=()=>{$('#flist').querySelectorAll('.on').forEach(x=>x.classList.remove('on'));d.classList.add('on');viewFile(d.dataset.p,d.dataset.v=='true')})}
+async function viewFile(p,v){const D=$('#doc');if(!v){D.innerHTML=`<p><a href="/api/file?raw=1&path=${encodeURIComponent(p)}">Download ${esc(p)}</a></p>`;return}
+  const f=await api('/api/file?path='+encodeURIComponent(p));let h=`<p class="muted">${esc(p)}${f.truncated?' · truncated preview':''} · <a href="/api/file?raw=1&path=${encodeURIComponent(p)}">raw</a></p>`;
+  if(f.suffix=='.md')h+=marked.parse(f.text);
+  else if(f.suffix=='.csv'){const rows=f.text.split('\n').map(l=>l.split(','));h+='<table>'+rows.map((r,i)=>'<tr>'+r.map(c=>i?`<td>${esc(c)}</td>`:`<th>${esc(c)}</th>`).join('')+'</tr>').join('')+'</table>'}
+  else if(f.suffix=='.json'){let t=f.text;try{t=JSON.stringify(JSON.parse(t),null,2)}catch(e){}h+=`<pre>${esc(t.slice(0,200000))}</pre>`}
+  else h+=`<pre>${esc(f.text)}</pre>`;D.innerHTML=h;D.scrollTop=0}
+async function loadGate(){const B=$('#gatebody');let g;try{g=await api('/api/gate')}catch(e){B.innerHTML=`<p class="muted">${esc(e.message)}</p>`;return}
+  B.innerHTML=`<p class="muted">Register revision ${g.revision}. ${esc(ST?.gate_output||'')}</p>
+  <div class="row" style="margin-bottom:8px"><input id="reviewer" placeholder="Reviewer name" value="${esc(g.reviewer)}"></div>
+  <table class="gate"><tr><th>Risk</th><th>Score</th><th>Decision</th><th>Comment</th></tr>${g.rows.map(r=>`<tr><td><b>${r.risk}</b> ${esc(r.title)}</td><td>${esc(r.score)}<br><span class="muted">${esc(r.band)}</span></td>
+  <td><select data-r="${r.risk}" class="dec">${['','Approve','Amend','Reject'].map(o=>`<option ${o==r.decision?'selected':''}>${o}</option>`).join('')}</select></td>
+  <td><textarea rows="2" data-c="${r.risk}">${esc(r.comment)}</textarea></td></tr>`).join('')}</table>
+  <div class="row" style="margin-top:10px"><button class="primary" onclick="saveGate()">Save decisions</button><button onclick="startRun('revise-register')">Revise register (step 4)</button><button onclick="showFile('outputs/risk-register.md')">Read the register</button></div><p class="muted" id="gatemsg"></p>`}
+async function saveGate(){const rows=[...document.querySelectorAll('.dec')].map(s=>({risk:s.dataset.r,decision:s.value,comment:document.querySelector(`[data-c="${s.dataset.r}"]`).value}));
+  try{const r=await api('/api/gate',{method:'POST',body:JSON.stringify({reviewer:$('#reviewer').value,rows})});$('#gatemsg').textContent=`Saved ${r.saved} decisions. Now run "Revise register".`;refresh()}catch(e){$('#gatemsg').textContent=e.message}}
+function showFile(p){showTab('files');setTimeout(()=>viewFile(p,true),50)}
+async function loadSign(){await refresh();const B=$('#signbody'),r=ST.review;
+  if(!r.exists){B.innerHTML='<p class="muted">No review yet: run the agent team first.</p>';return}
+  const ready=r.verdict.includes('READY FOR SIGN-OFF');
+  B.innerHTML=`<div class="banner ${ready?'ok':'bad'}">QA verdict: <b>${esc(r.verdict)}</b></div>
+  <p>Before signing, read <a href="#" onclick="showFile('outputs/review.md');return false">review.md</a> and the points <i>for the auditor</i> at the end of <a href="#" onclick="showFile('outputs/challenges.md');return false">challenges.md</a>.</p>
+  <p class="muted">Current block: signed off by <b>${esc(r.signoff['Signed off by']||'—')}</b>, date ${esc(r.signoff['Date']||'—')}, decision ${esc(r.signoff['Decision']||'—')}${r.signoff['Comment']?', comment: '+esc(r.signoff['Comment']):''}</p>
+  <div class="row"><input id="sname" placeholder="Your name"><select id="sdec"><option ${ready?'':'disabled'}>sign off</option><option>return to the team</option></select></div>
+  <div class="row" style="margin-top:6px"><textarea id="scom" rows="2" placeholder="Comment (optional): e.g. your answers to the points for the auditor"></textarea></div>
+  <div class="row" style="margin-top:8px"><button class="primary" onclick="sign()">Record decision</button><button onclick="runChecks()">Re-run QA checks</button></div><p class="muted" id="smsg"></p><pre class="out" id="chk" hidden></pre>`}
+async function sign(){try{await api('/api/signoff',{method:'POST',body:JSON.stringify({name:$('#sname').value,decision:$('#sdec').value,comment:$('#scom').value})});loadSign()}catch(e){$('#smsg').textContent=e.message}}
+async function runChecks(){$('#chk').hidden=false;$('#chk').textContent='Running scripts/checks/run_checks.py …';try{const r=await api('/api/checks',{method:'POST'});$('#chk').textContent=`exit ${r.exit}\n\n${r.output}`}catch(e){$('#chk').textContent=e.message}}
+async function loadHist(){const rs=await api('/api/runs');$('#hist').innerHTML=rs.length?'<table class="gate"><tr><th>Run</th><th>Stage</th><th>Status</th><th>Cost</th></tr>'+rs.map(r=>`<tr><td><a href="#" onclick="openRun('${r.id}');return false">${r.id}</a></td><td>${esc(ST?.stage_labels?.[r.stage]||r.stage)}</td><td><span class="pill ${r.status=='ok'?'ok':r.status=='running'?'warn':'bad'}">${r.status}</span></td><td>$${r.cost_usd.toFixed(2)}</td></tr>`).join('')+'</table>':'<p class="muted">No runs on this server yet. The preloaded outputs come from the signed-off run made while building the system.</p>'}
+async function resetWs(mode){if(!confirm(mode=='saved'?'Restore the saved, signed-off outputs? Current outputs are replaced.':'Clear all outputs so the workflow can run from step 1?'))return;
+  try{await api('/api/reset',{method:'POST',body:JSON.stringify({mode})});refresh();alert('Done.')}catch(e){alert(e.message)}}
+refresh();setInterval(refresh,10000);
+</script>
+</body>
+</html>

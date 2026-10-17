@@ -1,0 +1,34 @@
+app = "procurement-audit-planner"
+primary_region = "lhr"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "8080"
+  DATA_ROOT = "/data"
+  MODEL = "claude-opus-5-5"
+  MAX_TOTAL_USD = "150"
+
+[mounts]
+  source = "pap_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  # agent runs last many minutes with no inbound request: never auto-stop mid-run
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "20s"
+    method = "GET"
+    path = "/healthz"
+
+[[vm]]
+  size = "shared-cpu-2x"
+  memory = "2gb"
