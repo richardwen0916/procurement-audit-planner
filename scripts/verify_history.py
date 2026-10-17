@@ -46,6 +46,45 @@ def walk(node, path="$"):
             yield from walk(v, f"{path}[{i}]")
 
 
+def scoring_shape(sm: dict) -> list[str]:
+    """The layout build_register.py reads; a usable method in any other shape crashes it."""
+    errs = []
+    is_int = lambda v: isinstance(v, int) and not isinstance(v, bool)  # noqa: E731
+    for key in ("likelihood_scale", "impact_scale"):
+        scale = sm.get(key)
+        if not isinstance(scale, list):
+            errs.append(f"scoring_method.{key} must be a LIST of five {{score, label, ...}} entries "
+                        f"(found {type(scale).__name__}); do not wrap it in an object")
+            continue
+        if sorted(e.get("score") for e in scale if isinstance(e, dict) and is_int(e.get("score"))) != [1, 2, 3, 4, 5] \
+                or not all(isinstance(e, dict) and e.get("label") for e in scale):
+            errs.append(f"scoring_method.{key} needs entries with integer score 1-5 and a label")
+    for e in sm.get("impact_scale") or []:
+        if isinstance(e, dict) and not ("gbp_low" in e and "gbp_high" in e):
+            errs.append(f"scoring_method.impact_scale score {e.get('score')}: needs gbp_low and gbp_high keys (null if not printed)")
+    cells = (sm.get("combination") or {}).get("cells") if isinstance(sm.get("combination"), dict) else None
+    if not isinstance(cells, list) or len(cells) != 25 or not all(
+            isinstance(c, dict) and is_int(c.get("likelihood")) and is_int(c.get("impact"))
+            and is_int(c.get("score_printed")) and c.get("label") for c in cells):
+        errs.append("scoring_method.combination.cells must be a list of 25 {likelihood, impact, score_printed, label} "
+                    "entries, one per matrix cell")
+    bands = sm.get("bands")
+    if not isinstance(bands, list) or not bands or not all(
+            isinstance(b, dict) and b.get("level") and "rag" in b
+            and all(k in b and (b[k] is None or is_int(b[k])) for k in ("score_low", "score_high"))
+            and (is_int(b["score_low"]) or is_int(b["score_high"]))
+            for b in bands):
+        errs.append("scoring_method.bands must be a list of {level, rag, score_low, score_high, ...} entries "
+                    "(integer scores; null only for an open-ended end)")
+    crr = sm.get("corporate_register_threshold")
+    named = {k: v for k, v in crr.items() if isinstance(v, dict) and is_int(v.get("score_at_or_above"))} \
+        if isinstance(crr, dict) else {}
+    if not named or not all(v.get("section") for v in named.values()):
+        errs.append("scoring_method.corporate_register_threshold must map each statement of the threshold to "
+                    "{section, score_at_or_above, quote, ...}, e.g. {\"table_4\": {...}, \"figure_4\": {...}}")
+    return errs
+
+
 def main(hist: str, cdir: str) -> int:
     errors, warnings = [], []
     try:
@@ -99,6 +138,8 @@ def main(hist: str, cdir: str) -> int:
     sm = doc.get("scoring_method", {})
     if isinstance(sm, dict) and "usable" not in sm:
         errors.append("scoring_method.usable missing")
+    elif isinstance(sm, dict) and sm.get("usable"):
+        errors += scoring_shape(sm)
     print(f"history.json: {n_items} sourced items, {n_quotes} quotes, {len(cache)} documents")
     for w in warnings:
         print("WARN ", w)

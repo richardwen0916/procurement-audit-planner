@@ -183,16 +183,22 @@ async def stage_extract_rules(run: Run, ws: Path):
         "excluded counts.")
 
 
+ANALYST_PROMPTS = {
+    "spend-analyst": "Run the spend-analyst: produce outputs/analytics.json and "
+                     "outputs/analytics-full/ and run your self-check.",
+    "findings-analyst": "Run the findings-analyst: produce outputs/history.json and run "
+                        "`.venv/bin/python scripts/verify_history.py outputs/history.json data/committee` "
+                        "until it reports ALL CHECKS PASSED (it also checks the scoring_method layout).",
+}
+
+
+async def run_agent(run: Run, ws: Path, name: str):
+    tools, body = agent_definition(ws, name)
+    return await single_session(run, ws, name, tools, body, ANALYST_PROMPTS[name])
+
+
 async def stage_analysts(run: Run, ws: Path):
-    async def one(name, prompt):
-        tools, body = agent_definition(ws, name)
-        return await single_session(run, ws, name, tools, body, prompt)
-    await asyncio.gather(
-        one("spend-analyst", "Run the spend-analyst: produce outputs/analytics.json and "
-                             "outputs/analytics-full/ and run your self-check."),
-        one("findings-analyst", "Run the findings-analyst: produce outputs/history.json and "
-                                "run scripts/verify_history.py until it passes."),
-    )
+    await asyncio.gather(run_agent(run, ws, "spend-analyst"), run_agent(run, ws, "findings-analyst"))
 
 
 async def stage_risk_assessor(run: Run, ws: Path, revise: bool):
@@ -374,15 +380,49 @@ async def stage_team(run: Run, ws: Path):
 STAGES = {
     "extract-rules": stage_extract_rules,
     "analysts": stage_analysts,
+    "spend-analyst": lambda run, ws: run_agent(run, ws, "spend-analyst"),
+    "findings-analyst": lambda run, ws: run_agent(run, ws, "findings-analyst"),
     "risk-assessor": lambda run, ws: stage_risk_assessor(run, ws, revise=False),
     "revise-register": lambda run, ws: stage_risk_assessor(run, ws, revise=True),
     "team": stage_team,
 }
 
 
+import subprocess  # noqa: E402
+
+PY = ".venv/bin/python"
+# What each stage must leave behind; a run whose agent stopped and reported a
+# problem (rather than producing these) is marked failed, not ok.
+POSTCHECKS = {
+    "extract-rules": [[PY, ".claude/skills/extract-rules/verify_quotes.py", "outputs/rules.json", "data/contract-rules.pdf"]],
+    "spend-analyst": [[PY, "scripts/selfcheck.py"]],
+    "findings-analyst": [[PY, "scripts/verify_history.py", "outputs/history.json", "data/committee"]],
+    "analysts": [[PY, "scripts/selfcheck.py"],
+                 [PY, "scripts/verify_history.py", "outputs/history.json", "data/committee"]],
+    "risk-assessor": [["test", "-s", "outputs/risk-register.md"], ["test", "-s", "outputs/auditor-comments.md"]],
+    "revise-register": [["test", "-s", "outputs/risk-register.md"]],
+    "team": [[PY, "scripts/checks/run_checks.py"]],
+}
+
+
+def postcheck(run: Run, ws: Path) -> list[str]:
+    failed = []
+    for cmd in POSTCHECKS.get(run.stage, []):
+        p = subprocess.run(cmd, cwd=ws, capture_output=True, text=True, timeout=600)
+        tail = (p.stdout + p.stderr).strip().splitlines()[-3:]
+        run.log("harness", "check" if p.returncode == 0 else "error",
+                f"{' '.join(cmd[1:3] if cmd[0] == PY else cmd)} → exit {p.returncode}\n" + "\n".join(tail))
+        if p.returncode != 0:
+            failed.append(" ".join(cmd[1:2] if cmd[0] == PY else cmd))
+    return failed
+
+
 async def execute(run: Run, ws: Path, runs_dir: Path):
     try:
         await STAGES[run.stage](run, ws)
+        failed = await asyncio.to_thread(postcheck, run, ws)
+        if failed:
+            raise RuntimeError("stage outputs failed their checks: " + ", ".join(failed))
         run.status = "stopped" if run.stop_requested else "ok"
     except Exception as e:  # noqa: BLE001
         run.status = "failed"

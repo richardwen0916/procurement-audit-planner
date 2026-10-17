@@ -158,6 +158,29 @@ rest on:
 - `discrepancies`: anything inconsistent, e.g. a rating mislabelled in the
   prose, or the matrix cell labels not matching the RAG band boundaries.
 
+**Exact layout (build_register.py reads these keys; `verify_history.py`
+fails any other shape).** Each entry also carries its source, page and quote.
+Put extra quotes or notes in sibling keys, never by wrapping these in objects.
+
+```json
+"scoring_method": {
+  "usable": true, "reason": "", "source_document": "",
+  "likelihood_scale": [{"score": 1, "label": "", "definition": "", "probability": ""}],
+  "impact_scale": [{"score": 1, "label": "", "financial": "", "gbp_low": 0, "gbp_high": null,
+                    "budget_share": "", "personal": "", "assets": "", "reputation": "", "compliance": ""}],
+  "combination": {"rule": "likelihood x impact",
+                  "cells": [{"likelihood": 1, "impact": 1, "score_printed": 1, "label": "Low"}]},
+  "bands": [{"level": "", "rag": "", "score_low": 1, "score_high": 3, "escalation": "", "response": ""}],
+  "corporate_register_threshold": {"table_4": {"section": "", "score_at_or_above": 15}},
+  "appetite": {}
+}
+```
+
+`likelihood_scale` and `impact_scale` are lists of exactly five entries
+(scores 1–5); `combination.cells` lists all 25 matrix cells; each statement
+of the Corporate Risk Register threshold is its own named entry with a
+`section`, so conflicting statements stay visible.
+
 ### Step 7: Assemble history.json
 
 ```json

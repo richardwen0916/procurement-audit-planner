@@ -136,7 +136,9 @@ async function refresh(){try{ST=await api('/api/status')}catch(e){return}
     if(k=='team'&&Object.keys(ST.challenges).length)extra=`<div class="d">Challenges: ${Object.entries(ST.challenges).map(([s,n])=>n+' '+s).join(', ')}</div>`;
     const btn=stage?`<button class="${done?'':'primary'}" ${(!ST.api_key||ST.active_run)?'disabled':''} onclick="startRun('${stage}')">${stage=='revise-register'?'Revise register':(done?'Re-run':'Run')}</button>`
       :`<button onclick="showTab('signoff')">Open</button>`;
-    const gbtn=k=='gate'?` <button onclick="showTab('gate')">Decisions</button>`:'';
+    const dis=(!ST.api_key||ST.active_run)?'disabled':'';
+    const gbtn=k=='gate'?` <button onclick="showTab('gate')">Decisions</button>`
+      :k=='analysts'?` <button ${dis} onclick="startRun('spend-analyst')">Spend only</button> <button ${dis} onclick="startRun('findings-analyst')">Findings only</button>`:'';
     return `<div class="step"><div class="dot ${running?'run':done?'ok':''}">${running?'…':done?'✓':i+1}</div><div class="body"><div class="t">${t}</div><div class="d">${d}</div>${extra}<div style="margin-top:5px">${btn}${gbtn}</div></div></div>`}).join('');
   $('#meta').textContent=`Model ${ST.model} · API spend so far $${ST.spent_usd} of $${ST.max_total_usd} cap`;
   if(ST.active_run&&!CUR)openRun(ST.active_run)}

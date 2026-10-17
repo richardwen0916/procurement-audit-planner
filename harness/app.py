@@ -41,6 +41,8 @@ LOCK = asyncio.Lock()
 STAGE_INFO = {
     "extract-rules": "1 · Extract rules (skill)",
     "analysts": "2 · Spend + findings analysts (sub-agents)",
+    "spend-analyst": "2a · Spend analyst only",
+    "findings-analyst": "2b · Findings analyst only",
     "risk-assessor": "3 · Risk assessor (sub-agent)",
     "revise-register": "4 · Revise register from auditor decisions",
     "team": "5 · Agent team: planner, challenger, qa-reviewer",
@@ -61,12 +63,31 @@ def link_venv():
     v.symlink_to(VENV, target_is_directory=True)
 
 
+# Built code that ships with each deploy; outputs, agent memory and the
+# spend-analyst's own scripts are left as the runs made them.
+SYNCED = [".claude/agents", ".claude/skills", ".claude/settings.json", "CLAUDE.md",
+          "data", "scripts/checks", "scripts/verify_history.py"]
+
+
+def sync_code():
+    ignore = shutil.ignore_patterns("__pycache__", ".DS_Store")
+    for rel in SYNCED:
+        src, dst = SEED / rel, WS / rel
+        if src.is_dir():
+            shutil.copytree(src, dst, ignore=ignore, dirs_exist_ok=True)
+        elif src.is_file():
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src, dst)
+
+
 def init_workspace():
     DATA_ROOT.mkdir(parents=True, exist_ok=True)
     if not (WS / ".seeded").exists():
         WS.mkdir(parents=True, exist_ok=True)
         copy_seed(WS)
         (WS / ".seeded").write_text(datetime.datetime.now().isoformat())
+    else:
+        sync_code()
     link_venv()
     RUNS_DIR.mkdir(parents=True, exist_ok=True)
     for f in sorted(RUNS_DIR.glob("*.json")):
@@ -337,6 +358,10 @@ async def save_gate(request: Request, x_passcode: str | None = Header(default=No
         elif line.startswith("Date:"):
             line = f"Date: {datetime.date.today().isoformat()}"
         out.append(line)
+    # The builder's template has no reviewer lines: add them under the Register line.
+    if not any(l.startswith("Reviewer:") for l in out):
+        at = next((i + 1 for i, l in enumerate(out) if l.startswith("Register:")), 1)
+        out[at:at] = ["", f"Reviewer: {reviewer}  ", f"Date: {datetime.date.today().isoformat()}"]
     p.write_text("\n".join(out) + "\n", encoding="utf-8")
     return {"saved": len(decisions)}
 
