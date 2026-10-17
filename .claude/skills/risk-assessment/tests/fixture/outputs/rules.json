@@ -1,0 +1,69 @@
+{
+  "rules": [
+    {
+      "rule_id": "CPR-12",
+      "clause": "6.16",
+      "page": 5,
+      "type": "anti-avoidance",
+      "scope": "all",
+      "condition": "any contract or requirement",
+      "threshold_low": null,
+      "threshold_low_inclusive": null,
+      "threshold_high": null,
+      "threshold_high_inclusive": null,
+      "required_action": "Do not artificially split or disaggregate a contract to avoid the Procurement Legislation or these Rules.",
+      "approver": null,
+      "evidence_source": "spend-data",
+      "verbatim_quote": "There shall be no artificial splitting or disaggregation of a contract to avoid the application of the provisions of the Procurement Legislation and/or these Rules."
+    },
+    {
+      "rule_id": "CPR-54",
+      "clause": "App B row B1",
+      "page": 12,
+      "type": "threshold",
+      "scope": "goods-services",
+      "condition": "goods or services, total value exclusive of VAT £25,000 or more and less than the Threshold",
+      "threshold_low": 25000,
+      "threshold_low_inclusive": true,
+      "threshold_high": null,
+      "threshold_high_inclusive": false,
+      "threshold_high_ref": "STATUTORY_THRESHOLD_GOODS_SERVICES",
+      "required_action": "Send invitations to quote via the Procurement Portal to at least three appropriate sources (including at least one SME/VCSE and one local supplier where appropriate and possible) and publish a contract notice on the CDP.",
+      "approver": null,
+      "evidence_source": "spend-data",
+      "verbatim_quote": "Invitations to quote must be sent via the Procurement Portal to at least three appropriate sources, including at least one SME* or VCSE* organisation and one local supplier ****(where appropriate and possible**). A contract notice must be published on the CDP"
+    },
+    {
+      "rule_id": "CPR-62",
+      "clause": "App C row E",
+      "page": 14,
+      "type": "approver",
+      "scope": "all",
+      "condition": "variation of scope of an existing contract (provided for in the contract or permitted by Procurement Legislation)",
+      "threshold_low": null,
+      "threshold_low_inclusive": null,
+      "threshold_high": null,
+      "threshold_high_inclusive": null,
+      "required_action": "Below the Threshold obtain prior written approval of the Monitoring Officer and S151 Officer; above the Threshold obtain relevant board approval on a report with their recommendation.",
+      "approver": "Monitoring Officer and S151 Officer (below Threshold); relevant board on their recommendation (above Threshold)",
+      "evidence_source": "contracts-register",
+      "verbatim_quote": "The proposed contract is a variation of the scope of an existing contract where the existing contract provides for such a variation or where the variation is a modification permitted under the Procurement Legislation. For contract value below the Threshold prior written approval from the Monitoring Officer and S151 Officer is required. For contract value greater than the Threshold, approval of the relevant board, following the submission of an extension report to the relevant board with recommendation from Monitoring Officer and S151 Officer"
+    },
+    {
+      "rule_id": "CPR-63",
+      "clause": "App C row F",
+      "page": 15,
+      "type": "required-action",
+      "scope": "all",
+      "condition": "specified individual social care placements and packages (items a–f)",
+      "threshold_low": null,
+      "threshold_low_inclusive": null,
+      "threshold_high": null,
+      "threshold_high_inclusive": null,
+      "required_action": "Record the reasons for the choice of provider on the individual's case notes.",
+      "approver": "Service Directors (responsible)",
+      "evidence_source": "council-records",
+      "verbatim_quote": "Service Directors must ensure that a record of the reasons for the choice of provider is maintained on the individual’s case notes."
+    }
+  ]
+}

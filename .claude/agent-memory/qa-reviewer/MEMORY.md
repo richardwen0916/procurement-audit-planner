@@ -1,0 +1,1 @@
+- [Running the checks](running-checks.md) — run_checks.py output/exit codes; trace fails on missing/open challenges until rounds close

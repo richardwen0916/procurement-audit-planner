@@ -1,0 +1,7 @@
+test,item,group,row_id,source_file,sheet_row,pay_date,supplier,amount,service,narrative
+T-03.2,1,GLEN CLEANING COMPANY,Over500_2026_P02_-_published.xlsx:173,Over500_2026_P02_-_published.xlsx,173,2026-05-26,Glen Cleaning Company Ltd,5829.96,"Finance, Property & Procurement",Cleaning
+T-03.2,2,BAILEYS OF NEWBURY,Over500_2026_P04_-_published.xlsx:247,Over500_2026_P04_-_published.xlsx,247,2026-07-09,BAILEYS OF NEWBURY,6592.17,Education & SEND,Transport Hire
+T-03.2,3,D J TRAVEL,Over500_2026_P04_-_published.xlsx:278,Over500_2026_P04_-_published.xlsx,278,2026-07-14,D J TRAVEL,7035.0,Adult Social Care,Transport Hire
+T-03.2,4,SWAN ADVOCACY,Over500_2026_P03_-_published.xlsx:817,Over500_2026_P03_-_published.xlsx,817,2026-06-01,Swan Advocacy,7178.24,Adult Social Care,Voluntary Associations
+T-03.2,5,KENNET AND AVON GROUP,Over500_2026_P04_-_published.xlsx:232,Over500_2026_P04_-_published.xlsx,232,2026-07-10,Kennet & Avon Group,2970.0,Education & SEND,Transport Hire
+T-03.2,6,POTTINGER S HIRE SERVICE,Over500_2026_P04_-_published.xlsx:297,Over500_2026_P04_-_published.xlsx,297,2026-07-08,POTTINGER'S HIRE SERVICE,1981.67,Education & SEND,Transport Hire

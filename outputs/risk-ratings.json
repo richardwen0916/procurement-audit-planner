@@ -1,0 +1,323 @@
+{
+  "assessment_level": "actual",
+  "risks": [
+    {
+      "risk_id": "R-01",
+      "title": "Requirements split below the quotation threshold",
+      "status": "proposed",
+      "rule_ids": [
+        "CPR-12",
+        "CPR-54",
+        "CPR-55"
+      ],
+      "risk": "Related payments to one supplier within a short window may together reach a threshold that each single payment stays under, so the Portal quotation requirements of [rule:CPR-54] and [rule:CPR-55] may not be applied, contrary to the anti-splitting rule [rule:CPR-12].",
+      "likelihood": {
+        "rubric": "L4",
+        "score": 4,
+        "count_metric": "$.tests.split_purchases.by_threshold.25000.headline_general_procurement.windows",
+        "justification": "{{$.tests.split_purchases.by_threshold.25000.headline_general_procurement.windows}} general-procurement supplier windows of {{$.tests.split_purchases.parameters.window_days}} days combine payments each under the threshold to a total at or above it [metric:$.tests.split_purchases.by_threshold.25000.headline_general_procurement.windows], an indicator that [rule:CPR-12] may not operate.",
+        "uplift": null
+      },
+      "impact": {
+        "score": 5,
+        "dimension": "financial",
+        "basis_metric": "$.tests.split_purchases.by_threshold.25000.headline_general_procurement.gbp",
+        "justification": "The flagged general-procurement windows total {{$.tests.split_purchases.by_threshold.25000.headline_general_procurement.gbp}} in the three-month window [metric:$.tests.split_purchases.by_threshold.25000.headline_general_procurement.gbp]."
+      },
+      "evidence": [
+        "Tier tested: {{$.tests.split_purchases.by_threshold.25000.threshold|gbp}}, the App B quotation band [rule:CPR-54]; the auditor has not yet confirmed this tier for the test.",
+        "Lower tier (single quote, [rule:CPR-53]): {{$.tests.split_purchases.by_threshold.1000.headline_general_procurement.windows}} general-procurement windows totalling {{$.tests.split_purchases.by_threshold.1000.headline_general_procurement.gbp}} [metric:$.tests.split_purchases.by_threshold.1000.headline_general_procurement].",
+        "Tender tier ([rule:CPR-56]): {{$.tests.split_purchases.by_threshold.500000.headline_general_procurement.windows}} general-procurement windows totalling {{$.tests.split_purchases.by_threshold.500000.headline_general_procurement.gbp}} [metric:$.tests.split_purchases.by_threshold.500000.headline_general_procurement].",
+        "Placements shown separately and not counted: {{$.tests.split_purchases.by_threshold.25000.placement_separately.windows}} windows, exempt from competition under [rule:CPR-63].",
+        "Statutory-threshold tiers were not tested because the threshold values are not supplied: {{$.skipped[0].reason|raw}}. A skipped test is not a zero.",
+        "Payments of the publication floor or less are not published, so the count is a lower bound [metric:$.tests.split_purchases.caveat]; recurring periodic charges can also form windows.",
+        "The last Contract Letting audit gave Reasonable Assurance [history:AUD-01]; not adverse, so no uplift."
+      ],
+      "proposed_focus": "Take the largest general-procurement windows and establish whether each is one requirement; for those that are, seek the Portal quotation evidence required by [rule:CPR-54] or an approved waiver under [rule:CPR-19]."
+    },
+    {
+      "risk_id": "R-02",
+      "title": "Payments clustered just below the quotation threshold",
+      "status": "proposed",
+      "rule_ids": [
+        "CPR-53",
+        "CPR-54",
+        "CPR-55"
+      ],
+      "risk": "Single payments falling just below the quotation threshold may indicate requirements valued or invoiced to stay under it, so the competition steps of [rule:CPR-54] and [rule:CPR-55] may not be applied.",
+      "likelihood": {
+        "rubric": "L4",
+        "score": 4,
+        "count_metric": "$.tests.threshold_clustering.by_threshold.25000.below_band_by_tag.general_procurement.count",
+        "justification": "{{$.tests.threshold_clustering.by_threshold.25000.below_band_by_tag.general_procurement.count}} general-procurement payments fall in the band just below the threshold [metric:$.tests.threshold_clustering.by_threshold.25000.below_band_by_tag.general_procurement.count] set by [rule:CPR-54].",
+        "uplift": null
+      },
+      "impact": {
+        "score": 3,
+        "dimension": "financial",
+        "basis_metric": "$.tests.threshold_clustering.by_threshold.25000.below_band_by_tag.general_procurement.gbp",
+        "justification": "Those payments total {{$.tests.threshold_clustering.by_threshold.25000.below_band_by_tag.general_procurement.gbp}} in the window [metric:$.tests.threshold_clustering.by_threshold.25000.below_band_by_tag.general_procurement.gbp]."
+      },
+      "evidence": [
+        "Band tested: {{$.tests.threshold_clustering.parameters.below_band|raw}} with the threshold at {{$.tests.threshold_clustering.by_threshold.25000.threshold|gbp}}; the auditor has not yet confirmed this tier.",
+        "Comparator, all tags: {{$.tests.threshold_clustering.by_threshold.25000.below_band.count}} payments in the band below against {{$.tests.threshold_clustering.by_threshold.25000.above_band_comparator.count}} in the band above [metric:$.tests.threshold_clustering.by_threshold.25000.above_band_comparator.count]. Clustering is read against this comparator, not from the count alone.",
+        "Placements shown separately: {{$.tests.threshold_clustering.by_threshold.25000.below_band_by_tag.care_or_education_placement.count}} payments, exempt under [rule:CPR-63].",
+        "Lower tier ([rule:CPR-53]): {{$.tests.threshold_clustering.by_threshold.1000.below_band_by_tag.general_procurement.count}} general-procurement payments just below that threshold [metric:$.tests.threshold_clustering.by_threshold.1000.below_band_by_tag.general_procurement.count].",
+        "No general-procurement payments fall just below the higher tiers [metric:$.tests.threshold_clustering.by_threshold.500000.below_band_by_tag.general_procurement.count]; statutory tiers were skipped ({{$.skipped[0].reason|raw}})."
+      ],
+      "proposed_focus": "For the flagged general-procurement payments, obtain the requirement's estimated total value and check whether it was a single requirement that should have followed [rule:CPR-54]; read the result against the above-band comparator."
+    },
+    {
+      "risk_id": "R-03",
+      "title": "High-value suppliers with no contract notice found",
+      "status": "proposed",
+      "rule_ids": [
+        "CPR-34",
+        "CPR-54",
+        "CPR-55",
+        "CPR-57"
+      ],
+      "risk": "Suppliers whose annualised spend reaches the publication threshold may be paid without a competed, published and registered contract, so the requirements of [rule:CPR-54], [rule:CPR-57] and the contract-register notification of [rule:CPR-34] may not operate.",
+      "likelihood": {
+        "rubric": "L4",
+        "score": 4,
+        "count_metric": "$.tests.off_contract.headline_unmatched_general_procurement.suppliers",
+        "justification": "{{$.tests.off_contract.headline_unmatched_general_procurement.suppliers}} general-procurement suppliers at or above the publication threshold have no exact name match to an active Contracts Finder notice [metric:$.tests.off_contract.headline_unmatched_general_procurement.suppliers]. No notice found is an indicator to investigate, not evidence that no contract exists.",
+        "uplift": null
+      },
+      "impact": {
+        "score": 5,
+        "dimension": "financial",
+        "basis_metric": "$.tests.off_contract.headline_unmatched_general_procurement.annualised_estimate_gbp",
+        "justification": "Their annualised estimate is {{$.tests.off_contract.headline_unmatched_general_procurement.annualised_estimate_gbp}} [metric:$.tests.off_contract.headline_unmatched_general_procurement.annualised_estimate_gbp], scaled from the three-month window and distorted by seasonal or one-off spend."
+      },
+      "evidence": [
+        "No council contract register was supplied, so matching used published notices only: {{$.skipped[5].reason|raw}} [metric:$.tests.off_contract.caveat].",
+        "Exact matches: {{$.tests.off_contract.per_match_class.exact.suppliers}} suppliers; near-miss names for the auditor to confirm: {{$.tests.off_contract.per_match_class.near_ratio.suppliers}} by similarity and {{$.tests.off_contract.per_match_class.near_contain.suppliers}} by containment, never counted as matches [metric:$.matching.note].",
+        "Spend data carries no company number, so matching is on normalised names only [metric:$.matching.companies_house_matching].",
+        "Placements shown separately: {{$.tests.off_contract.unmatched_by_dominant_tag.care_or_education_placement.suppliers}} unmatched suppliers, expected to have few notices under [rule:CPR-63].",
+        "Publication threshold used: {{$.tests.off_contract.parameters.threshold|gbp}}; suppliers below it are not classed and must not be questioned on this basis [metric:$.tests.off_contract.scope_note]. The auditor has not yet confirmed this tier.",
+        "The inter-authority exclusion has a known limitation: {{$.population.limitations[4]|raw}} [metric:$.population.excluded.inter_authority.reason]. At least one excluded supplier has been identified as not a public body, so its spend sits outside this test.",
+        "The register-publication duty [rule:CPR-07] cannot be checked because no register was supplied."
+      ],
+      "proposed_focus": "Request the council's contract register and, for the largest unmatched general-procurement suppliers, the contract or framework call-off and the competition evidence required by [rule:CPR-54] or [rule:CPR-57]; confirm or reject each near-miss name match."
+    },
+    {
+      "risk_id": "R-04",
+      "title": "Spend continuing after every matched contract notice ended",
+      "status": "proposed",
+      "rule_ids": [
+        "CPR-61"
+      ],
+      "risk": "Suppliers paid in the spend window whose only matched notices had already ended may be paid under an extension without the S151 Officer approval required by [rule:CPR-61].",
+      "likelihood": {
+        "rubric": "L3",
+        "score": 3,
+        "count_metric": "$.tests.expired_notice_spend.by_dominant_tag.general_procurement",
+        "justification": "{{$.tests.expired_notice_spend.by_dominant_tag.general_procurement}} general-procurement suppliers were paid in the window although every exact-matched notice ended before it began [metric:$.tests.expired_notice_spend.by_dominant_tag.general_procurement]; a newer contract may exist with no notice.",
+        "uplift": null
+      },
+      "impact": {
+        "score": 4,
+        "dimension": "financial",
+        "basis_metric": "$.tests.expired_notice_spend.annualised_estimate_gbp",
+        "justification": "Annualised estimate for these suppliers: {{$.tests.expired_notice_spend.annualised_estimate_gbp}} [metric:$.tests.expired_notice_spend.annualised_estimate_gbp]; window spend {{$.tests.expired_notice_spend.gbp_in_window}}."
+      },
+      "evidence": [
+        "Of these, {{$.tests.expired_notice_spend.at_or_above_publication_threshold.suppliers}} suppliers are at or above the publication threshold [metric:$.tests.expired_notice_spend.at_or_above_publication_threshold.suppliers].",
+        "Notices are not a register; extensions and replacement contracts may be unpublished [metric:$.tests.expired_notice_spend.caveat].",
+        "Contract management and contractor delivery are a named source of risk in the council's strategy [history:RT-12]."
+      ],
+      "proposed_focus": "For each flagged supplier, obtain the current contract and any extension, and check for S151 Officer approval under [rule:CPR-61] dated before the extended period began."
+    },
+    {
+      "risk_id": "R-05",
+      "title": "Spend above the award's annual rate",
+      "status": "proposed",
+      "rule_ids": [
+        "CPR-62"
+      ],
+      "risk": "Annualised spend well above a contract's awarded annual rate may indicate a variation of scope without the approvals required by [rule:CPR-62].",
+      "likelihood": {
+        "rubric": "L3",
+        "score": 3,
+        "count_metric": "$.tests.spend_vs_award.flagged_ratio_ge_threshold",
+        "justification": "{{$.tests.spend_vs_award.flagged_ratio_ge_threshold}} of {{$.tests.spend_vs_award.eligible_suppliers}} eligible suppliers have an annualised estimate at or above {{$.tests.spend_vs_award.parameters.ratio_flag}} times the award's annual rate [metric:$.tests.spend_vs_award.flagged_ratio_ge_threshold].",
+        "uplift": null
+      },
+      "impact": {
+        "score": 5,
+        "dimension": "financial",
+        "basis_metric": "$.tests.spend_vs_award.flagged_annualised_estimate_gbp",
+        "justification": "Annualised estimate for the flagged suppliers: {{$.tests.spend_vs_award.flagged_annualised_estimate_gbp}} [metric:$.tests.spend_vs_award.flagged_annualised_estimate_gbp]."
+      },
+      "evidence": [
+        "Award values may be estimates or maxima and spend may relate to other arrangements; a high ratio is an indicator only [metric:$.tests.spend_vs_award.caveat].",
+        "Eligibility is narrow (one live single-supplier notice with a positive value), so the test covers few suppliers [metric:$.tests.spend_vs_award.parameters.eligibility].",
+        "Contract management is a named source of risk in the council's strategy [history:RT-12]."
+      ],
+      "proposed_focus": "For each flagged supplier, compare spend with the contract's priced scope and look for a variation approved by the Monitoring Officer and S151 Officer, or by the relevant board, as [rule:CPR-62] requires."
+    },
+    {
+      "risk_id": "R-06",
+      "title": "Same supplier paid the same amount within seven days",
+      "status": "proposed",
+      "rule_ids": [
+        "CPR-31"
+      ],
+      "risk": "Payments of identical amounts to one supplier within seven days on separate payment runs may indicate a duplicate payment or a purchase without its own written evidence [rule:CPR-31].",
+      "likelihood": {
+        "rubric": "L4",
+        "score": 4,
+        "count_metric": "$.tests.duplicates.tiers.different_time.by_dominant_tag.general_procurement.groups",
+        "justification": "{{$.tests.duplicates.tiers.different_time.by_dominant_tag.general_procurement.groups}} general-procurement groups of same-amount payments fall on two or more payment runs within seven days [metric:$.tests.duplicates.tiers.different_time.by_dominant_tag.general_procurement.groups], the higher-signal tier, against the written-evidence rule [rule:CPR-31].",
+        "uplift": null
+      },
+      "impact": {
+        "score": 3,
+        "dimension": "financial",
+        "basis_metric": "$.tests.duplicates.tiers.different_time.by_dominant_tag.general_procurement.gbp_beyond_first",
+        "justification": "Value beyond the first payment in each group: {{$.tests.duplicates.tiers.different_time.by_dominant_tag.general_procurement.gbp_beyond_first}} [metric:$.tests.duplicates.tiers.different_time.by_dominant_tag.general_procurement.gbp_beyond_first], the most that could be recoverable if every repeat were a duplicate."
+      },
+      "evidence": [
+        "Same-run groups (lower signal, typical of a batch of equal invoices): {{$.tests.duplicates.tiers.same_timestamp.by_dominant_tag.general_procurement.groups}} in general procurement [metric:$.tests.duplicates.tiers.same_timestamp.by_dominant_tag.general_procurement.groups].",
+        "Placements shown separately: {{$.tests.duplicates.tiers.different_time.by_dominant_tag.care_or_education_placement.groups}} different-run groups, where periodic fees legitimately recur.",
+        "Payments at or below the publication floor are not published, so counts are lower bounds [metric:$.tests.duplicates.caveat].",
+        "The last Accounts Payable audit gave Reasonable Assurance [history:AUD-15]; not adverse, so no uplift."
+      ],
+      "proposed_focus": "For the different-run general-procurement groups, match each payment to its invoice and order to confirm separate supplies, and check any confirmed duplicate for recovery."
+    },
+    {
+      "risk_id": "R-07",
+      "title": "Waivers and exceptions to competition not approved and documented",
+      "status": "proposed",
+      "rule_ids": [
+        "CPR-19",
+        "CPR-20",
+        "CPR-24",
+        "CPR-25",
+        "CPR-26"
+      ],
+      "risk": "Competition may be waived or excepted without the advance approval, written exception report and S151 Officer record that [rule:CPR-20], [rule:CPR-25] and [rule:CPR-26] require.",
+      "likelihood": {
+        "rubric": "L2",
+        "score": 2,
+        "count_metric": null,
+        "justification": "No public-data test can measure this control: waivers are held only in council records [rule:CPR-24], so it is rated on the rule and the gap, not on observed data [rule:CPR-26].",
+        "uplift": null
+      },
+      "impact": {
+        "score": 3,
+        "dimension": "compliance",
+        "basis_metric": null,
+        "justification": "An unapproved waiver removes competition the Rules require above the quotation band [rule:CPR-19]; this fits Table 1 Medium: reasonable possibility of successful legal challenge."
+      },
+      "evidence": [
+        "The Rules name different approvers for exceptions (Executive Director or Chief Executive in [rule:CPR-19]; Monitoring Officer or S151 Officer only in [rule:CPR-20]); the auditor should confirm which applies.",
+        "Unmatched high-value suppliers ([metric:$.tests.off_contract.headline_unmatched_general_procurement.suppliers]) are a population in which waivers, if any, would be found."
+      ],
+      "proposed_focus": "Obtain the waiver and exception log for the spend window and test a sample for advance approval, a written exception report and the S151 Officer's record under [rule:CPR-26]; cross-check against the unmatched high-value suppliers."
+    },
+    {
+      "risk_id": "R-08",
+      "title": "Contract awards not approved at the required level",
+      "status": "proposed",
+      "rule_ids": [
+        "CPR-04",
+        "CPR-49",
+        "CPR-50",
+        "CPR-51",
+        "CPR-52"
+      ],
+      "risk": "Contract awards may be made without the delegated authority, board report or Key Decision that Appendix A and [rule:CPR-04] require for their value.",
+      "likelihood": {
+        "rubric": "L2",
+        "score": 3,
+        "count_metric": null,
+        "justification": "No public-data test can measure award approvals: they are held only in council records [rule:CPR-50], so the risk is rated on the rule and the gap [rule:CPR-04]. The rubric row is L2; the score is raised to Likely by auditor override, per the auditor's comment: \"Raise likelihood: awards above {{$.tests.split_purchases.by_threshold.500000.threshold|gbp}} are rare but carry the highest stakes.\"",
+        "uplift": null
+      },
+      "impact": {
+        "score": 3,
+        "dimension": "compliance",
+        "basis_metric": null,
+        "justification": "An award above the Key Decision level not taken as a Key Decision [rule:CPR-04] fits Table 1 Medium: reasonable possibility of successful legal challenge."
+      },
+      "evidence": [
+        "Context: {{$.tests.split_purchases.by_threshold.500000.headline_general_procurement.windows}} general-procurement supplier windows exceed the tender tier within thirty days [metric:$.tests.split_purchases.by_threshold.500000.headline_general_procurement.windows], indicating arrangements whose value may require a Key Decision.",
+        "The Appendix A tiers for awards between the threshold and the Key Decision level depend on the statutory threshold, which is not supplied ({{$.skipped[0].reason|raw}}).",
+        "The last Contract Letting audit gave Reasonable Assurance [history:AUD-01]; not adverse, so no uplift."
+      ],
+      "proposed_focus": "For a sample of awards in the period, including the arrangements behind the tender-tier windows, check the approval record against the value tier in [rule:CPR-49] to [rule:CPR-52] and Key Decision status under [rule:CPR-04]."
+    },
+    {
+      "risk_id": "R-09",
+      "title": "Placement exemption applied without recorded reasons or board approval",
+      "status": "proposed",
+      "rule_ids": [
+        "CPR-63",
+        "CPR-64"
+      ],
+      "risk": "Care and education placements are exempt from competition only where the reasons for the choice of provider are recorded [rule:CPR-63] and, above the threshold, the relevant board approves [rule:CPR-64]; these records may be missing.",
+      "likelihood": {
+        "rubric": "L2",
+        "score": 2,
+        "count_metric": null,
+        "justification": "No public-data test can measure this control: the reasons sit in individual case notes [rule:CPR-63] and board approvals in council records [rule:CPR-64]. Personal Budgets (Direct Payments) received Limited Assurance [history:AUD-16], but direct payments are funds given to individuals to arrange their own support, not a provider chosen by the council under this exemption, so the theme differs and no uplift is applied.",
+        "uplift": null
+      },
+      "impact": {
+        "score": 2,
+        "dimension": "compliance",
+        "basis_metric": null,
+        "justification": "A missing case-note reason is a record gap on an exempt purchase [rule:CPR-63]; this fits Table 1 Minor: low possibility of legal challenge, low possibility of regulatory interest."
+      },
+      "evidence": [
+        "Scale: placement spend in the window is {{$.population.tags.care_or_education_placement.gbp}} across {{$.population.tags.care_or_education_placement.suppliers}} suppliers [metric:$.population.tags.care_or_education_placement.gbp], and placements dominate the split-purchase and duplicate flags [metric:$.tests.split_purchases.by_threshold.25000.placement_separately.windows].",
+        "The last audit of residential and nursing care purchasing gave Reasonable Assurance [history:AUD-18]; not adverse, so no uplift."
+      ],
+      "proposed_focus": "For a sample of placement suppliers, check the case-note record of provider choice under [rule:CPR-63] and, where the annual value is above the threshold, the board approval under [rule:CPR-64]."
+    }
+  ],
+  "excluded": [
+    {
+      "theme": "Grants",
+      "reason": "No testable rule in rules.json governs grant awards; grants follow a separate route."
+    },
+    {
+      "theme": "Agency staff",
+      "reason": "No rule specific to agency staffing; supplier-level tests already show it as a separate tag."
+    },
+    {
+      "theme": "Transparency publication of spend and tenders (CPR-05, CPR-06)",
+      "reason": "Analytics did not test these duties and no history item refers to them."
+    },
+    {
+      "theme": "Contract formation, sealing, indemnity and insurance (CPR-32 to CPR-47)",
+      "reason": "Rule only; no metric and no history item, and testable only within awarded contracts during fieldwork."
+    },
+    {
+      "theme": "Statutory-threshold tiers of the split and clustering tests",
+      "reason": "Skipped because the threshold values were not supplied; a skipped test is not rated."
+    }
+  ],
+  "revision": {
+    "number": 1,
+    "summary": "Applied auditor decisions on register rev 0 (build 7e7648b89f26): eight risks approved unchanged, R-08 likelihood raised by auditor override.",
+    "changes": [
+      {
+        "risk_id": "R-08",
+        "field": "likelihood.score",
+        "decision_ref": "R-08",
+        "override": true,
+        "note": "Auditor raised likelihood to 3; rubric row stays L2 (no public-data test)."
+      },
+      {
+        "risk_id": "R-08",
+        "field": "likelihood.justification",
+        "decision_ref": "R-08",
+        "note": "Justification states the override and quotes the auditor's reason; existing citations kept."
+      }
+    ]
+  }
+}

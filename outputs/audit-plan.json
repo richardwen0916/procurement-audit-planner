@@ -1,0 +1,730 @@
+{
+  "generated_at": "2026-10-16",
+  "memo": {
+    "purpose": [
+      "This audit seeks assurance that the council's Contract Procedure Rules operate over its purchasing: that requirements are valued as a whole before a route is chosen, that competition, waivers, extensions and variations carry the approvals the Rules require, and that payments rest on written evidence. The analytics surface risk indicators to investigate, not findings: each pattern below has legitimate explanations, and the tests ask whether the expected control was in place.",
+      "Grants are out of scope: the auditor recorded that they are not rated in this register and will be covered by a separate review."
+    ],
+    "background": [
+      "The full published expenditure population from {{$.population.date_min}} to {{$.population.date_max}} ({{$.population.months_covered}} months) was analysed: {{$.population.rows_after_exclusions}} payments worth £{{$.population.total_gbp}} after statutory, redacted and inter-authority payments were set aside [metric:$.population.rows_after_exclusions].",
+      "General procurement accounts for {{$.population.tags.general_procurement.rows}} payments worth £{{$.population.tags.general_procurement.gbp}} to {{$.population.tags.general_procurement.suppliers}} suppliers; care and education placements, exempt from competition under App C row F, for £{{$.population.tags.care_or_education_placement.gbp}} [metric:$.population.tags.general_procurement.gbp].",
+      "Headline indicators in general procurement: {{$.tests.split_purchases.by_threshold.25000.headline_general_procurement.windows}} supplier windows of thirty days where payments each under the quotation threshold together reach it; {{$.tests.off_contract.headline_unmatched_general_procurement.suppliers}} suppliers at or above the publication threshold with no exact match to a live contract notice; {{$.tests.spend_vs_award.flagged_ratio_ge_threshold}} of {{$.tests.spend_vs_award.eligible_suppliers}} eligible suppliers paid at or above {{$.tests.spend_vs_award.parameters.ratio_flag}} times the award's annual rate; {{$.tests.expired_notice_spend.suppliers}} suppliers paid after every matched notice ended; {{$.tests.duplicates.tiers.different_time.by_dominant_tag.general_procurement.groups}} same-amount groups on different payment runs within seven days; and {{$.tests.threshold_clustering.by_threshold.25000.below_band_by_tag.general_procurement.count}} payments just below the quotation threshold.",
+      "The last Contract Letting and Accounts Payable audits gave Reasonable Assurance; no repeat adverse finding raised any rating."
+    ],
+    "approach": [
+      "The Rules were turned into testable rules with clause references; Python tested the whole population against them; past audit coverage was read from Governance Committee papers. Risks were rated on the council's own likelihood and impact scale, and the auditor approved all nine, raising the likelihood of R-08 by override.",
+      "For each approved risk the programme names the control the Rules require, cites the rule, and sets a test step with the evidence to inspect. Samples are targeted, not random: each is drawn by the builder from the flagged list behind the risk's metric, largest value first, sized by score (ten items for a score of nine or more, five below), general procurement only except where the risk concerns placements. Split windows and duplicate groups are drawn whole so each can be judged as one requirement. Tests that rest on council records alone (waivers, award approvals) pair a log request with a targeted sample.",
+      "Fieldwork order: R-01, R-03 and R-05 first (Extreme band), then the Amber risks, then R-07 and R-09. The programme lists R-03 and R-08 first so that the split-purchase sample skips suppliers whose contracts those tests already pull."
+    ],
+    "limitations": [
+      "Only payments over the publication floor are published, so split-purchase and duplicate counts are lower bounds [metric:$.tests.split_purchases.caveat].",
+      "Contract notices are not a contract register: no register was supplied, so 'no notice found' and 'notice ended' are indicators only, and suppliers below the publication threshold are never questioned on this basis [metric:$.tests.off_contract.scope_note].",
+      "Annualised figures scale the window by {{$.population.annualisation_factor}} and are distorted by seasonal or one-off spend; award values may be estimates or maxima [metric:$.tests.spend_vs_award.caveat].",
+      "Supplier matching to contract notices uses normalised names only, because the spend data carries no company number [metric:$.matching.companies_house_matching]; the spend-versus-award test covers only {{$.tests.spend_vs_award.eligible_suppliers}} eligible suppliers, those on one live single-supplier notice with a positive value [metric:$.tests.spend_vs_award.parameters.eligibility].",
+      "Statutory-threshold tiers were not tested because the threshold values were not supplied; the auditor has not yet confirmed the quotation tier used. The award-tier and board-approval grading in T-08.1, T-08.2 and T-09.1 depends on the Threshold values in force, requested on the PBC list.",
+      "Payment dates are payment-run timestamps, not invoice dates.",
+      "The inter-authority word list both sets aside some non-public suppliers and misses some public bodies with abbreviated names, so the headline unmatched count includes a few public bodies; samples leave out council, NHS, police and fire payees by name pattern.",
+      "Approvals of waivers, awards, extensions and variations are held only in council records, so their tests depend on the PBC list.",
+      "CPR-19 and CPR-20 name different approvers for a waiver; until the auditor settles which applies, T-07.1 records the approver against both and refers any approval meeting only one rule to the auditor."
+    ]
+  },
+  "risks": [
+    {
+      "id": "R-03",
+      "objective": "Conclude whether the council's largest suppliers with no matching contract notice are paid under a competed, written and registered contract or a properly approved framework call-off.",
+      "controls": [
+        {
+          "id": "C-03.1",
+          "control": "Spend at or above the quotation band rests on a written contract let by the competition the Rules require for its value, after a recorded check of the supplier's suitability and financial standing, or on a Purchasing Scheme call-off with recorded advice and Monitoring Officer approval.",
+          "cites": [
+            "rule:CPR-54",
+            "rule:CPR-55",
+            "rule:CPR-56",
+            "rule:CPR-57",
+            "rule:CPR-32",
+            "rule:CPR-27",
+            "rule:CPR-60",
+            "rule:CPR-09"
+          ],
+          "owner": "Relevant Service Director"
+        },
+        {
+          "id": "C-03.2",
+          "control": "Every contract award is notified to the Service Lead for Commissioning and Procurement and entered on the published contract register.",
+          "cites": [
+            "rule:CPR-34",
+            "rule:CPR-07"
+          ],
+          "owner": "Service Lead for Commissioning and Procurement"
+        }
+      ],
+      "tests": [
+        {
+          "id": "T-03.1",
+          "control": "C-03.1",
+          "step": "For each sampled supplier, obtain the contract or call-off covering the sampled payments and the competition evidence for its value tier: Portal quotations for goods or services, or for works, concession or light touch contracts below the tender band; a full tender above it; or the Purchasing Scheme advice and approval. Inspect the recorded pre-award check of the supplier's suitability and financial standing. Pass: a written contract or call-off covering the payments, let by the route its value and type require, with the suitability check recorded before award.",
+          "evidence": "Signed contract or call-off, tender or quotation record, framework access advice and Monitoring Officer approval, pre-award supplier suitability and financial standing check",
+          "cites": [
+            "rule:CPR-54",
+            "rule:CPR-55",
+            "rule:CPR-57",
+            "rule:CPR-32",
+            "rule:CPR-60",
+            "metric:$.tests.off_contract.headline_unmatched_general_procurement.suppliers",
+            "rule:CPR-09"
+          ],
+          "sample": {
+            "kind": "suppliers",
+            "source": "off-contract.csv",
+            "where": {
+              "match_class": "none",
+              "dominant_tag": "general_procurement"
+            },
+            "order_by": "annualised_estimate",
+            "descending": true,
+            "n": 10,
+            "per_group_n": 3,
+            "where_not_match": {
+              "supplier_norm": "\\b(?:COUNCIL|CNCL|NHS|POLICE|FIRE AND RESCUE|FIRE AUTHORITY|HMRC|WALLET|PREPAID|PAYPOINT)\\b"
+            }
+          },
+          "pbc": [
+            "Contract register (all contracts in progress and awarded)",
+            "Contracts or call-offs and competition evidence for the sampled suppliers"
+          ]
+        },
+        {
+          "id": "T-03.2",
+          "control": "C-03.2",
+          "step": "Obtain the contract register. For each near-miss name candidate, confirm whether the supplier paid is the supplier on the candidate notice; for every supplier sampled in this risk, confirm the contract appears on the register. Pass: identity confirmed or rejected with evidence, and each contract registered.",
+          "evidence": "Contract register entries, award notifications to Procurement, supplier master data",
+          "cites": [
+            "rule:CPR-34",
+            "rule:CPR-07",
+            "metric:$.tests.off_contract.per_match_class.near_contain.suppliers",
+            "metric:$.tests.off_contract.per_match_class.near_ratio.suppliers"
+          ],
+          "sample": {
+            "kind": "suppliers",
+            "source": "off-contract.csv",
+            "where": {
+              "match_class": [
+                "near_ratio",
+                "near_contain"
+              ]
+            },
+            "order_by": "annualised_estimate",
+            "descending": true,
+            "n": 10,
+            "per_group_n": 1
+          },
+          "pbc": [
+            "Contract register (all contracts in progress and awarded)",
+            "Supplier master data for the near-miss name candidates"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R-08",
+      "objective": "Conclude whether contract awards are approved at the delegated level set for their value, including Key Decision status for the highest tiers.",
+      "controls": [
+        {
+          "id": "C-08.1",
+          "control": "Each award is made only under a decision within the Scheme of Delegation at the Appendix A tier for its total contract value, with the written procurement report and board approval where required, and taken as a Key Decision where the value requires it. Works contracts estimated above the bond level without a performance bond carry a written risk assessment approved by the Service Director for Finance and Property.",
+          "cites": [
+            "rule:CPR-02",
+            "rule:CPR-04",
+            "rule:CPR-49",
+            "rule:CPR-50",
+            "rule:CPR-51",
+            "rule:CPR-52",
+            "rule:CPR-28",
+            "rule:CPR-42"
+          ],
+          "owner": "Relevant Service Director"
+        }
+      ],
+      "tests": [
+        {
+          "id": "T-08.1",
+          "control": "C-08.1",
+          "step": "For each sampled tender-tier window, identify the contract the payments fall under and its total contract value; obtain the award decision and check it against the Appendix A tier, the written procurement report and Key Decision status. For works contracts, check that a performance bond is held or that a written risk assessment approved by the Service Director for Finance and Property is on the contract file. Pass: an award decision at or above the required level, dated before the contract, and a bond or approved risk assessment for works contracts. The Appendix A tier is set from the Threshold values in force, which the council must supply.",
+          "evidence": "Award decision record, delegated decision or Executive report, written procurement report, Forward Plan or Key Decision record, performance bond or bond risk assessment and its approval",
+          "cites": [
+            "rule:CPR-04",
+            "rule:CPR-51",
+            "rule:CPR-52",
+            "rule:CPR-42",
+            "rule:CPR-56",
+            "metric:$.tests.split_purchases.by_threshold.500000.headline_general_procurement.windows"
+          ],
+          "sample": {
+            "kind": "groups",
+            "source": "split-purchases.csv",
+            "where": {
+              "threshold": 500000,
+              "dominant_tag": "general_procurement"
+            },
+            "order_by": "window_total",
+            "descending": true,
+            "n": 10,
+            "per_group_n": 3,
+            "ids_column": "row_ids"
+          },
+          "pbc": [
+            "Award decision records and written procurement reports for the contracts behind the sampled windows",
+            "Performance bond or approved bond risk assessment for works contracts behind the sampled windows",
+            "Threshold values in force in the spend window (goods and services, works and concessions, light touch)"
+          ]
+        },
+        {
+          "id": "T-08.2",
+          "control": "C-08.1",
+          "step": "For each sampled supplier with a matching notice and a large annualised estimate, obtain the award decision for the noticed contract and check it as in T-08.1. Pass: award approved at the Appendix A tier for the contract's total value. The tier is set from the Threshold values in force.",
+          "evidence": "Contract notice, award decision record, written procurement report, Key Decision record where applicable",
+          "cites": [
+            "rule:CPR-49",
+            "rule:CPR-50",
+            "rule:CPR-51",
+            "rule:CPR-28",
+            "metric:$.tests.off_contract.per_match_class.exact.suppliers"
+          ],
+          "sample": {
+            "kind": "suppliers",
+            "source": "off-contract.csv",
+            "where": {
+              "match_class": "exact",
+              "dominant_tag": "general_procurement"
+            },
+            "where_min": {
+              "annualised_estimate": 500000
+            },
+            "order_by": "annualised_estimate",
+            "descending": true,
+            "exclude_drawn_in": [
+              "T-08.1"
+            ],
+            "n": 10,
+            "per_group_n": 1
+          },
+          "pbc": [
+            "Award decision records for the noticed contracts of the suppliers sampled in T-08.2",
+            "Scheme of Delegation and nominations in writing in force in the spend window",
+            "Threshold values in force in the spend window (goods and services, works and concessions, light touch)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R-01",
+      "objective": "Conclude whether related purchases from one supplier are aggregated and valued as one requirement before the procurement route is chosen, so that the quotation requirements apply where the combined value reaches them.",
+      "controls": [
+        {
+          "id": "C-01.1",
+          "control": "Requirements are valued in total and not split or disaggregated; where the combined value reaches the quotation band, invitations to quote go via the Procurement Portal to at least three sources, the payments are call-offs under a written contract or Purchasing Scheme let by the route the total value requires, or an approved waiver is held.",
+          "cites": [
+            "rule:CPR-12",
+            "rule:CPR-54",
+            "rule:CPR-55",
+            "rule:CPR-30",
+            "rule:CPR-60"
+          ],
+          "owner": "Relevant Service Director"
+        }
+      ],
+      "tests": [
+        {
+          "id": "T-01.1",
+          "control": "C-01.1",
+          "step": "For each sampled window, obtain the orders and invoices behind the payments and establish whether they relate to one requirement. Where they do, obtain the Portal quotation record (at least three invitations), the written contract or Purchasing Scheme call-off the payments fall under with its award route, or an approved waiver. Pass: separate requirements evidenced; or quotation evidence, a contract or call-off let by the route its total value requires, or a waiver held for the combined value. Suppliers already drawn in T-03.1 and T-08.1 are left out here: their windows are judged on the contract evidence those tests obtain.",
+          "evidence": "Purchase orders, invoices, requirement specification, Procurement Portal quotation record, contract or Purchasing Scheme call-off and its award record, waiver approval where relevant",
+          "cites": [
+            "rule:CPR-12",
+            "rule:CPR-54",
+            "rule:CPR-19",
+            "rule:CPR-60",
+            "metric:$.tests.split_purchases.by_threshold.25000.headline_general_procurement.windows"
+          ],
+          "sample": {
+            "kind": "groups",
+            "source": "split-purchases.csv",
+            "where": {
+              "threshold": 25000,
+              "dominant_tag": "general_procurement"
+            },
+            "order_by": "window_total",
+            "descending": true,
+            "distinct_by": "supplier_norm",
+            "n": 10,
+            "per_group_n": 0,
+            "ids_column": "row_ids",
+            "exclude_drawn_in": [
+              "T-03.1",
+              "T-08.1"
+            ],
+            "where_not_match": {
+              "supplier_norm": "\\b(?:COUNCIL|CNCL|NHS|POLICE|FIRE AND RESCUE|FIRE AUTHORITY|HMRC|WALLET|PREPAID|PAYPOINT)\\b",
+              "narratives": "Contribution|External audit|Allowances|Direct Payment|Insurance Premiums"
+            }
+          },
+          "pbc": [
+            "Purchase orders and invoices for the sampled split-purchase windows",
+            "Procurement Portal quotation records for the sampled windows",
+            "Contracts or Purchasing Scheme call-offs the sampled window payments fall under",
+            "Waiver and exception log for the spend window"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R-05",
+      "objective": "Conclude whether spend running above a contract's awarded annual rate is within the priced scope or covered by an approved variation.",
+      "controls": [
+        {
+          "id": "C-05.1",
+          "control": "A variation of scope receives prior written approval of the Monitoring Officer and S151 Officer below the Threshold, or of the relevant board on their recommendation above it.",
+          "cites": [
+            "rule:CPR-62"
+          ],
+          "owner": "Monitoring Officer and S151 Officer"
+        }
+      ],
+      "tests": [
+        {
+          "id": "T-05.1",
+          "control": "C-05.1",
+          "step": "For each sampled supplier, obtain spend to date under the contract from the supplier ledger and compare it with the Awarded Value and the contract term, pro rata to date. Where spend to date exceeds the award's rate, check for a variation of scope approved at the level CPR-62 sets before the excess arose. Pass: spend to date within the award, or any excess covered by a dated, approved variation.",
+          "evidence": "Supplier ledger spend to date on the contract, contract and pricing schedule, variation records and approvals, board reports where above the Threshold",
+          "cites": [
+            "rule:CPR-62",
+            "metric:$.tests.spend_vs_award.flagged_ratio_ge_threshold"
+          ],
+          "sample": {
+            "kind": "suppliers",
+            "source": "spend-vs-award.csv",
+            "where_min": {
+              "ratio": 1.25
+            },
+            "order_by": "ratio",
+            "descending": true,
+            "n": 10,
+            "per_group_n": 0
+          },
+          "pbc": [
+            "Supplier ledger spend to date on each sampled contract",
+            "Contracts, pricing schedules and variation approvals for the sampled suppliers",
+            "Threshold values in force in the spend window (goods and services, works and concessions, light touch)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R-02",
+      "objective": "Conclude whether single payments just below the quotation threshold reflect requirements whose estimated total value was correctly below it.",
+      "controls": [
+        {
+          "id": "C-02.1",
+          "control": "The estimated total value of each requirement is recorded before the route is chosen, and requirements valued at or above the quotation band follow the Portal quotation process.",
+          "cites": [
+            "rule:CPR-54",
+            "rule:CPR-55",
+            "rule:CPR-53",
+            "rule:CPR-30"
+          ],
+          "owner": "Relevant Service Director"
+        }
+      ],
+      "tests": [
+        {
+          "id": "T-02.1",
+          "control": "C-02.1",
+          "step": "For each sampled payment, obtain the order and the recorded estimate of the requirement's total value, and check for other orders for the same requirement. Pass: a documented estimate below the quotation band and at least one quote, or quotation evidence where the total reaches it. Read results against the above-band comparator.",
+          "evidence": "Purchase order, recorded value estimate, quotation(s), related orders for the same requirement",
+          "cites": [
+            "rule:CPR-54",
+            "rule:CPR-53",
+            "metric:$.tests.threshold_clustering.by_threshold.25000.below_band_by_tag.general_procurement.count",
+            "metric:$.tests.threshold_clustering.by_threshold.25000.above_band_comparator.count"
+          ],
+          "sample": {
+            "kind": "rows",
+            "source": "threshold-clustering.csv",
+            "where": {
+              "threshold": 25000,
+              "tag": "general_procurement"
+            },
+            "order_by": "Net amount",
+            "descending": true,
+            "n": 10,
+            "where_not_match": {
+              "supplier_norm": "\\b(?:COUNCIL|CNCL|NHS|POLICE|FIRE AND RESCUE|FIRE AUTHORITY|HMRC|WALLET|PREPAID|PAYPOINT)\\b"
+            }
+          },
+          "pbc": [
+            "Purchase orders, value estimates and quotations for the sampled near-threshold payments"
+          ]
+        },
+        {
+          "id": "T-02.2",
+          "control": "C-02.1",
+          "step": "For each sampled payment just below the single-quote threshold, obtain the order, the recorded estimate of the requirement's value and other orders to the same supplier for the same requirement. Pass: at least one quote held where the requirement's total value is above the single-quote threshold, as CPR-53 requires.",
+          "evidence": "Purchase order, recorded value estimate, quotation, related orders to the same supplier",
+          "cites": [
+            "rule:CPR-53",
+            "metric:$.tests.threshold_clustering.by_threshold.1000.below_band_by_tag.general_procurement.count",
+            "metric:$.tests.threshold_clustering.by_threshold.1000.above_band_comparator.count"
+          ],
+          "sample": {
+            "kind": "rows",
+            "source": "threshold-clustering.csv",
+            "where": {
+              "threshold": 1000,
+              "tag": "general_procurement"
+            },
+            "where_not_match": {
+              "supplier_norm": "\\b(?:COUNCIL|CNCL|NHS|POLICE|FIRE AND RESCUE|FIRE AUTHORITY|HMRC|WALLET|PREPAID|PAYPOINT)\\b",
+              "Narrative": "Contribution|External audit|Allowances|Direct Payment|Insurance Premiums"
+            },
+            "order_by": "Net amount",
+            "descending": true,
+            "distinct_by": "supplier_norm",
+            "n": 10
+          },
+          "pbc": [
+            "Purchase orders, value estimates and quotes for the sampled single-quote-tier payments"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R-04",
+      "objective": "Conclude whether payments to suppliers whose matched contract notices had ended are covered by an approved extension or a new contract.",
+      "controls": [
+        {
+          "id": "C-04.1",
+          "control": "Each contract extension is approved by the S151 Officer before the extended period begins; otherwise a new contract is let.",
+          "cites": [
+            "rule:CPR-61"
+          ],
+          "owner": "S151 Officer"
+        }
+      ],
+      "tests": [
+        {
+          "id": "T-04.1",
+          "control": "C-04.1",
+          "step": "For each sampled supplier, obtain the contract under which the sampled payments were made. If it is an extension, check for S151 Officer approval dated before the extended period began; if a new contract, check it on the register. Pass: a dated approval or a current contract covering the payments. Suppliers below the publication threshold are not sampled, consistent with the scope note.",
+          "evidence": "Current contract or extension, S151 Officer approval and its date, contract register entry",
+          "cites": [
+            "rule:CPR-61",
+            "metric:$.tests.expired_notice_spend.by_dominant_tag.general_procurement"
+          ],
+          "sample": {
+            "kind": "suppliers",
+            "source": "expired-notice-spend.csv",
+            "where": {
+              "dominant_tag": "general_procurement",
+              "at_or_above_publication_threshold": true
+            },
+            "order_by": "total_gbp",
+            "descending": true,
+            "n": 10,
+            "per_group_n": 3
+          },
+          "pbc": [
+            "Current contracts or extensions and S151 Officer extension approvals for the sampled suppliers"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R-06",
+      "objective": "Conclude whether same-amount payments to one supplier on different payment runs within seven days each rest on their own written evidence of purchase.",
+      "controls": [
+        {
+          "id": "C-06.1",
+          "control": "Every payment is supported by its own written or electronic evidence of purchase (order and invoice), so a repeat invoice is detected before payment.",
+          "cites": [
+            "rule:CPR-31"
+          ]
+        }
+      ],
+      "tests": [
+        {
+          "id": "T-06.1",
+          "control": "C-06.1",
+          "step": "For each sampled group, match every payment to its invoice and order and compare invoice numbers, dates and the goods or services supplied. Pass: distinct invoices for distinct supplies. Refer any payment without its own evidence for recovery review.",
+          "evidence": "Invoices, purchase orders, goods-received records, supplier statements, any accounts-payable duplicate-check report or exception log covering the sampled payments",
+          "cites": [
+            "rule:CPR-31",
+            "metric:$.tests.duplicates.tiers.different_time.by_dominant_tag.general_procurement.groups"
+          ],
+          "sample": {
+            "kind": "groups",
+            "source": "duplicates.csv",
+            "where": {
+              "tier": "different_time",
+              "dominant_tag": "general_procurement"
+            },
+            "order_by": "gbp_beyond_first",
+            "descending": true,
+            "n": 10,
+            "ids_column": "row_ids",
+            "distinct_by": "supplier_norm"
+          },
+          "pbc": [
+            "Invoices and purchase orders for every payment in the sampled same-amount groups",
+            "Any accounts-payable duplicate-check report or exception log covering the sampled payments"
+          ]
+        },
+        {
+          "id": "T-06.2",
+          "control": "C-06.1",
+          "step": "For each sampled placement group, match every payment to its invoice and the placement agreement or care package, and compare the period, client reference and service each invoice covers. Pass: each payment covers a distinct period or service under the agreement. Regular periodic fees evidenced by the agreement pass; refer any payment without its own evidence for recovery review.",
+          "evidence": "Invoices, placement agreements or care package records, payment schedules (personal details redacted), any accounts-payable duplicate-check report or exception log covering the sampled payments",
+          "cites": [
+            "rule:CPR-31",
+            "metric:$.tests.duplicates.tiers.different_time.by_dominant_tag.care_or_education_placement.groups"
+          ],
+          "sample": {
+            "kind": "groups",
+            "source": "duplicates.csv",
+            "where": {
+              "tier": "different_time",
+              "dominant_tag": "care_or_education_placement"
+            },
+            "order_by": "gbp_beyond_first",
+            "descending": true,
+            "distinct_by": "supplier_norm",
+            "n": 10,
+            "ids_column": "row_ids"
+          },
+          "pbc": [
+            "Invoices and placement agreements for every payment in the sampled placement same-amount groups",
+            "Any accounts-payable duplicate-check report or exception log covering the sampled payments"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R-07",
+      "objective": "Conclude whether waivers and exceptions to competition are approved in advance at the level the Rules require, documented, reported and recorded by the S151 Officer.",
+      "controls": [
+        {
+          "id": "C-07.1",
+          "control": "Each waiver or exception is approved in advance by the Monitoring Officer and/or S151 Officer at the level set for its value, fully documented, supported by a written exception report to the relevant board, and recorded by the S151 Officer; exclusions under Procurement Legislation have prior Monitoring Officer approval.",
+          "cites": [
+            "rule:CPR-19",
+            "rule:CPR-20",
+            "rule:CPR-21",
+            "rule:CPR-22",
+            "rule:CPR-23",
+            "rule:CPR-24",
+            "rule:CPR-25",
+            "rule:CPR-26",
+            "rule:CPR-58"
+          ],
+          "owner": "S151 Officer and Monitoring Officer"
+        }
+      ],
+      "tests": [
+        {
+          "id": "T-07.1",
+          "control": "C-07.1",
+          "step": "Obtain the waiver and exception log for the spend window and select entries across the value tiers. For each, record the approver against both CPR-19 (Executive Director and/or Chief Executive) and CPR-20 (Monitoring Officer and/or S151 Officer), and check the written exception report, board approval where required, and the S151 Officer's record. Pass: all elements present, dated before the contract, and the approval meets both rules; refer any approval that meets only one rule to the auditor.",
+          "evidence": "Waiver and exception log, approvals, exception reports, board minutes, S151 Officer records",
+          "cites": [
+            "rule:CPR-19",
+            "rule:CPR-20",
+            "rule:CPR-21",
+            "rule:CPR-22",
+            "rule:CPR-23",
+            "rule:CPR-25",
+            "rule:CPR-26"
+          ],
+          "sample": {
+            "kind": "none",
+            "note": "document test: entries selected from the waiver and exception log the council provides; no published transaction identifies a waiver"
+          },
+          "pbc": [
+            "Waiver and exception log for the spend window",
+            "Approvals, exception reports and S151 Officer records for the selected log entries"
+          ]
+        },
+        {
+          "id": "T-07.2",
+          "control": "C-07.1",
+          "step": "For each sampled supplier with no notice found and not already sampled under R-03, ask whether a waiver or exception covers the spend; where one does, test it as in T-07.1 and check it appears in the log. Pass: a contract let by competition, or a logged and approved waiver.",
+          "evidence": "Contract or waiver record for the sampled suppliers, waiver and exception log",
+          "cites": [
+            "rule:CPR-19",
+            "rule:CPR-24",
+            "metric:$.tests.off_contract.headline_unmatched_general_procurement.suppliers"
+          ],
+          "sample": {
+            "kind": "suppliers",
+            "source": "off-contract.csv",
+            "where": {
+              "match_class": "none",
+              "dominant_tag": "general_procurement"
+            },
+            "order_by": "annualised_estimate",
+            "descending": true,
+            "exclude_drawn_in": [
+              "T-03.1"
+            ],
+            "n": 5,
+            "per_group_n": 1,
+            "where_not_match": {
+              "supplier_norm": "\\b(?:COUNCIL|CNCL|NHS|POLICE|FIRE AND RESCUE|FIRE AUTHORITY|HMRC|WALLET|PREPAID|PAYPOINT)\\b",
+              "main_narrative": "Contribution|External audit|Allowances|Direct Payment"
+            }
+          },
+          "pbc": [
+            "Contract or waiver record for the suppliers sampled in T-07.2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R-09",
+      "objective": "Conclude whether care and education placements relying on the App C row F exemption have recorded reasons for the choice of provider and, above the Threshold, board approval.",
+      "controls": [
+        {
+          "id": "C-09.1",
+          "control": "The reasons for the choice of provider are recorded on the individual's case notes, and where the annual or total value exceeds the Threshold the relevant board approves the exemption.",
+          "cites": [
+            "rule:CPR-63",
+            "rule:CPR-64"
+          ],
+          "owner": "Service Directors"
+        }
+      ],
+      "tests": [
+        {
+          "id": "T-09.1",
+          "control": "C-09.1",
+          "step": "For each sampled placement payment, identify the placement and inspect the case-note record of the reasons for the provider chosen; where the arrangement's value exceeds the Threshold, obtain the board approval. Pass: reasons recorded, and board approval where required. Whether board approval is required is set from the Threshold values in force, which the council must supply.",
+          "evidence": "Case-note extract of provider-choice reasons (personal details redacted), placement agreement, board approval",
+          "cites": [
+            "rule:CPR-63",
+            "rule:CPR-64",
+            "metric:$.population.tags.care_or_education_placement.gbp"
+          ],
+          "sample": {
+            "kind": "suppliers",
+            "source": "high-value-suppliers.csv",
+            "where": {
+              "dominant_tag": "care_or_education_placement"
+            },
+            "order_by": "annualised_estimate",
+            "descending": true,
+            "n": 5,
+            "per_group_n": 2
+          },
+          "pbc": [
+            "Case-note extracts of provider-choice reasons for the sampled placement payments",
+            "Board approvals of Appendix C exemptions above the Threshold",
+            "Threshold values in force in the spend window (goods and services, works and concessions, light touch)"
+          ]
+        },
+        {
+          "id": "T-09.2",
+          "control": "C-09.1",
+          "step": "For each sampled placement payment just below the quotation threshold, identify the placement and its package value, and inspect the case-note record of the reasons for the provider chosen; where the arrangement's annual or total value exceeds the Threshold, obtain the board approval. Pass: reasons recorded, and board approval where required. Whether board approval is required is set from the Threshold values in force, which the council must supply.",
+          "evidence": "Case-note extract of provider-choice reasons (personal details redacted), placement agreement or care package record showing its value, board approval",
+          "cites": [
+            "rule:CPR-63",
+            "rule:CPR-64",
+            "metric:$.tests.threshold_clustering.by_threshold.25000.below_band_by_tag.care_or_education_placement.count"
+          ],
+          "sample": {
+            "kind": "rows",
+            "source": "threshold-clustering.csv",
+            "where": {
+              "threshold": 25000,
+              "tag": "care_or_education_placement"
+            },
+            "order_by": "Net amount",
+            "descending": true,
+            "distinct_by": "supplier_norm",
+            "exclude_drawn_in": [
+              "T-09.1"
+            ],
+            "n": 5
+          },
+          "pbc": [
+            "Case-note extracts and placement agreements or care package records for the sampled near-threshold placement payments"
+          ]
+        }
+      ]
+    }
+  ],
+  "rules_not_tested": [
+    {
+      "reason": "sets a duty outside the approved risks (social value record, budget provision); neither is visible in the spend data",
+      "rule_ids": [
+        "CPR-01",
+        "CPR-03"
+      ]
+    },
+    {
+      "reason": "transparency or reporting duty; the published spend data is itself the expenditure publication, and no approved risk addresses tender publication or monthly board reporting",
+      "rule_ids": [
+        "CPR-05",
+        "CPR-06",
+        "CPR-08"
+      ]
+    },
+    {
+      "reason": "applies above the statutory threshold, whose value was not supplied, so it cannot be tied to the spend data",
+      "rule_ids": [
+        "CPR-10",
+        "CPR-11",
+        "CPR-13",
+        "CPR-46"
+      ]
+    },
+    {
+      "reason": "conduct of a tender (portal security, late tenders, opening, evaluation, award criteria); no approved risk addresses tender conduct",
+      "rule_ids": [
+        "CPR-14",
+        "CPR-15",
+        "CPR-16",
+        "CPR-17",
+        "CPR-18"
+      ]
+    },
+    {
+      "reason": "record-retention period; checked only incidentally when documents are requested",
+      "rule_ids": [
+        "CPR-29"
+      ]
+    },
+    {
+      "reason": "contract drafting, sealing, indemnities, bonds, insurance and Counsel: legal formalities no approved risk addresses",
+      "rule_ids": [
+        "CPR-33",
+        "CPR-35",
+        "CPR-36",
+        "CPR-37",
+        "CPR-38",
+        "CPR-39",
+        "CPR-40",
+        "CPR-41",
+        "CPR-43",
+        "CPR-44",
+        "CPR-45",
+        "CPR-47",
+        "CPR-48"
+      ]
+    },
+    {
+      "reason": "Provider Selection Regime records; no approved risk addresses health-care provider selection",
+      "rule_ids": [
+        "CPR-59"
+      ]
+    }
+  ]
+}

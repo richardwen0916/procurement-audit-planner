@@ -1,0 +1,1 @@
+- [Challenge techniques](challenge-techniques.md) — cross-read sample filters vs by_dominant_tag, comparators, per_group_n caps, null thresholds

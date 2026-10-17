@@ -1,0 +1,1 @@
+- [Builder pitfalls](builder_pitfalls.md) — no [n] in citation tags; risk IDs and day counts trip the typed-figure check; where no-uplift reasons go; revision overrides; £ quotes use |int; post-build edits force rev+1

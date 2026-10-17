@@ -1,0 +1,1 @@
+- [Builder pitfalls](builder_pitfalls.md) — literal-figure regex traps, groups row_ids separator, sample kind per analytics-full file

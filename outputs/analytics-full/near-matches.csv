@@ -1,0 +1,9 @@
+supplier_norm,match_class,candidate_norm,ratio,rule_fired,supplier,total_gbp,annualised_estimate,dominant_tag,candidate_notice_ids
+GLEN CLEANING COMPANY,near_contain,GLEN CLEANING,0.765,single distinctive token 'GLEN' unique on both sides,Glen Cleaning Company Ltd,92393.12,369572.48,general_procurement,IT-402-1488-P00001488 - AWARD
+BAILEYS OF NEWBURY,near_contain,BAILEYS COACHES,0.606,single distinctive token 'BAILEYS' unique on both sides,BAILEYS OF NEWBURY,68206.35,272825.4,general_procurement,P00000342
+D J TRAVEL,near_ratio,DJ TRAVEL,0.947,SequenceMatcher ratio >= 0.85,D J TRAVEL,67966.91,271867.64,general_procurement,P00000342 Jan-Mar 2023
+SWAN ADVOCACY,near_contain,SWAN ADVOCACY NETWORK,0.765,"distinctive subset >=2 tokens ['ADVOCACY', 'SWAN']",Swan Advocacy,51216.0,204864.0,care_or_education_placement,IT-402-974-P00000974 - AWARD
+KENNET AND AVON GROUP,near_contain,KENNET AND AVON CARS,0.829,"distinctive subset >=2 tokens ['AVON', 'KENNET']",Kennet & Avon Group,11735.0,46940.0,general_procurement,P00000342
+POTTINGER S HIRE SERVICE,near_ratio,POTTINGERS HIRE SERVICES,0.958,SequenceMatcher ratio >= 0.85,POTTINGER'S HIRE SERVICE,9352.5,37410.0,general_procurement,West Berkshire Council Transport Dynamic Purchasing System (DPS) Ongoing awards July-Sept 2025
+SDK ENVIRONMENTAL,near_ratio,SMS ENVIRONMENTAL,0.882,SequenceMatcher ratio >= 0.85,SDK Environmental Ltd,3095.0,12380.0,general_procurement,IT-402-1599-P00001599 - AWARD
+HDS EXPRESS TRANSPORT,near_contain,SCHOOL EXPRESS,0.514,single distinctive token 'EXPRESS' unique on both sides,HDS EXPRESS TRANSPORT LIMITED,1041.6,4166.4,grant,P00000342 Oct-Dec 2024 P00001314

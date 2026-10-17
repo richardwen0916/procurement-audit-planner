@@ -1,0 +1,1 @@
+- [Committee PDF extraction](committee-pdf-extraction.md) — table garbling, verifier normalisation, page numbering, known-absent papers

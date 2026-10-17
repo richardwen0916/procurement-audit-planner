@@ -1,0 +1,55 @@
+{
+  "assessment_level": "actual",
+  "risks": [
+    {
+      "risk_id": "R-01",
+      "title": "Requirements split below the quotation threshold",
+      "status": "proposed",
+      "rule_ids": ["CPR-12", "CPR-54"],
+      "risk": "Related payments to one supplier may together exceed a threshold that each single payment stays under, so the quotation and notice requirements of [rule:CPR-54] may not be applied ([rule:CPR-12]).",
+      "likelihood": {
+        "rubric": "L4",
+        "score": 4,
+        "count_metric": "$.tests.split_purchases.by_threshold.25000.headline_general_procurement.windows",
+        "justification": "{{$.tests.split_purchases.by_threshold.25000.headline_general_procurement.windows}} supplier windows in general procurement combine to cross the threshold [metric:$.tests.split_purchases.by_threshold.25000.headline_general_procurement].",
+        "uplift": {
+          "history_id": "AUD-90",
+          "justification": "The contract-letting follow-up [history:AUD-90] covered quotation evidence for awards below the tender threshold."
+        }
+      },
+      "impact": {
+        "score": 5,
+        "dimension": "financial",
+        "basis_metric": "$.tests.split_purchases.by_threshold.25000.headline_general_procurement.gbp",
+        "justification": "The flagged windows total {{$.tests.split_purchases.by_threshold.25000.headline_general_procurement.gbp}} in the period [metric:$.tests.split_purchases.by_threshold.25000.headline_general_procurement.gbp]."
+      },
+      "evidence": [
+        "Placements are shown separately ({{$.tests.split_purchases.by_threshold.25000.placement_separately.windows}} windows) because [rule:CPR-63] exempts them from competition."
+      ],
+      "proposed_focus": "Test the largest general-procurement windows for a single underlying requirement and the quotation evidence required by [rule:CPR-54]."
+    },
+    {
+      "risk_id": "R-02",
+      "title": "Spend above the award value without an approved variation",
+      "status": "proposed",
+      "rule_ids": ["CPR-62"],
+      "risk": "Annualised spend with some suppliers is well above the annual rate of their published award, which may indicate a variation without the approval [rule:CPR-62] requires.",
+      "likelihood": {
+        "rubric": "L4",
+        "score": 4,
+        "count_metric": "$.tests.spend_vs_award.flagged_ratio_ge_threshold",
+        "justification": "Several suppliers exceed the ratio [metric:$.tests.spend_vs_award.flagged_suppliers].",
+        "uplift": null
+      },
+      "impact": {
+        "score": 4,
+        "dimension": "financial",
+        "basis_metric": "$.tests.spend_vs_award.flagged_annualised_estimate_gbp",
+        "justification": "Roughly £2.9m a year is above the award rates."
+      },
+      "evidence": [],
+      "proposed_focus": "Request the variation approvals for the flagged notices."
+    }
+  ],
+  "revision": null
+}

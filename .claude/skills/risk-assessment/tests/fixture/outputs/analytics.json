@@ -1,0 +1,30 @@
+{
+  "generated_at": "fixture",
+  "tests": {
+    "split_purchases": {
+      "by_threshold": {
+        "25000": {
+          "threshold": 25000,
+          "headline_general_procurement": {
+            "windows": 64,
+            "suppliers": 42,
+            "gbp": 3442571.49
+          },
+          "placement_separately": {
+            "windows": 178,
+            "suppliers": 129,
+            "gbp": 17886028.77
+          }
+        }
+      }
+    },
+    "spend_vs_award": {
+      "parameters": {
+        "ratio_flag": 1.25
+      },
+      "eligible_suppliers": 19,
+      "flagged_ratio_ge_threshold": 8,
+      "flagged_annualised_estimate_gbp": 2946603.88
+    }
+  }
+}

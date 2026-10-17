@@ -1,0 +1,4 @@
+- [Input format quirks](input_format_quirks.md) — Published Date Z/offset mix; sheet-row mapping; packed supplier column name
+- [Normalisation pitfalls](normalisation_pitfalls.md) — T/AS variant; COUNTY false positives in inter_authority; narrative "(excl Joint Arrangements)"
+- [Threshold derivation](threshold_derivation.md) — inclusivity/competition/publication flags; high-value threshold choice needs confirming
+- [Self-check tips](selfcheck_tips.md) — JSON top-20 rounded to 2 dp; compare rounded
