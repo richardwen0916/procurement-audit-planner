@@ -9,6 +9,12 @@ for West Berkshire Council from public data. It:
 4. rates the risks on the council's own scale, and
 5. produces a cross-checked audit planning pack for a human auditor to approve.
 
+**Live app:** https://procurement-audit-planner.fly.dev is an independent web harness
+(FastAPI + Claude Agent SDK, hosted on Fly.io). It runs the whole workflow from the browser:
+extract rules, the two analysts, the risk assessor, the auditor gate, the agent team and
+sign-off. Anyone can view the outputs; starting a run needs a passcode. The code is in
+[`harness/`](harness/), [`Dockerfile`](Dockerfile) and [`fly.toml`](fly.toml).
+
 The full system specification is in [`CLAUDE.md`](CLAUDE.md). This README covers:
 
 - the skills and agents,
