@@ -147,13 +147,17 @@ def register_revision() -> int | None:
     return int(m.group(1)) if m else 0
 
 
+SIGNOFF_HEADING = "## Auditor sign-off"
+
+
 def review_state() -> dict:
     p = WS / "outputs" / "review.md"
     if not p.exists():
         return {"exists": False}
     t = p.read_text(encoding="utf-8")
     verdict = re.search(r"## Verdict\s*\n+(.+)", t)
-    sig = {k: (re.search(rf"^{re.escape(k)}[^:\n]*:[ \t]*(.*)$", t, re.M) or [None, ""])[1].strip()
+    block = t[t.find(SIGNOFF_HEADING):] if SIGNOFF_HEADING in t else ""
+    sig = {k: (re.search(rf"^{re.escape(k)}[^:\n]*:[ \t]*(.*)$", block, re.M) or [None, ""])[1].strip()
            for k in ("Signed off by", "Date", "Decision", "Comment")}
     return {"exists": True, "verdict": verdict.group(1).strip() if verdict else "",
             "signoff": sig, "mtime": p.stat().st_mtime}
@@ -382,11 +386,14 @@ async def signoff(request: Request, x_passcode: str | None = Header(default=None
         raise HTTPException(409, f"verdict is '{st['verdict']}': sign-off is blocked")
     p = WS / "outputs" / "review.md"
     t = p.read_text(encoding="utf-8")
+    if SIGNOFF_HEADING not in t:
+        raise HTTPException(409, f"review.md has no '{SIGNOFF_HEADING}' block")
+    head, block = t.split(SIGNOFF_HEADING, 1)
     vals = {"Signed off by": name, "Date": datetime.date.today().isoformat(),
             "Decision": decision, "Comment": comment}
     for k, v in vals.items():
-        t = re.sub(rf"^({re.escape(k)}[^:\n]*:)[ \t]*.*$", lambda m, v=v: f"{m.group(1)} {v}", t, count=1, flags=re.M)
-    p.write_text(t, encoding="utf-8")
+        block = re.sub(rf"^({re.escape(k)}[^:\n]*:)[ \t]*.*$", lambda m, v=v: f"{m.group(1)} {v}", block, count=1, flags=re.M)
+    p.write_text(head + SIGNOFF_HEADING + block, encoding="utf-8")
     return review_state()
 
 
