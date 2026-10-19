@@ -165,6 +165,7 @@ Put extra quotes or notes in sibling keys, never by wrapping these in objects.
 ```json
 "scoring_method": {
   "usable": true, "reason": "", "source_document": "",
+  "evaluation_levels": [{"level": "gross", "definition": ""}],
   "likelihood_scale": [{"score": 1, "label": "", "definition": "", "probability": ""}],
   "impact_scale": [{"score": 1, "label": "", "financial": "", "gbp_low": 0, "gbp_high": null,
                     "budget_share": "", "personal": "", "assets": "", "reputation": "", "compliance": ""}],
@@ -176,6 +177,8 @@ Put extra quotes or notes in sibling keys, never by wrapping these in objects.
 }
 ```
 
+`evaluation_levels` is a list of `{level, definition}` entries (level as a
+lowercase word: gross, actual, expected), never an object keyed by level;
 `likelihood_scale` and `impact_scale` are lists of exactly five entries
 (scores 1–5); `combination.cells` lists all 25 matrix cells; each statement
 of the Corporate Risk Register threshold is its own named entry with a

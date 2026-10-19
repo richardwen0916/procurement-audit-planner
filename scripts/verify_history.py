@@ -76,6 +76,11 @@ def scoring_shape(sm: dict) -> list[str]:
             for b in bands):
         errs.append("scoring_method.bands must be a list of {level, rag, score_low, score_high, ...} entries "
                     "(integer scores; null only for an open-ended end)")
+    levels = sm.get("evaluation_levels")
+    if not isinstance(levels, list) or not levels or not all(
+            isinstance(e, dict) and e.get("level") and e.get("definition") for e in levels):
+        errs.append("scoring_method.evaluation_levels must be a LIST of {level, definition, ...} entries "
+                    f"(found {type(levels).__name__}), e.g. [{{\"level\": \"gross\", ...}}]; not an object keyed by level")
     crr = sm.get("corporate_register_threshold")
     named = {k: v for k, v in crr.items() if isinstance(v, dict) and is_int(v.get("score_at_or_above"))} \
         if isinstance(crr, dict) else {}
