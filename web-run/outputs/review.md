@@ -23,6 +23,6 @@ READY FOR SIGN-OFF (4/4 checks pass)
 ## Auditor sign-off
 
 Signed off by: Richard Wen
-Date:
+Date: 2026-10-19
 Decision (sign off / return to the team): sign off
 Comment: 
