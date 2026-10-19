@@ -7,7 +7,7 @@ primary_region = "lhr"
 [env]
   PORT = "8080"
   DATA_ROOT = "/data"
-  MODEL = "claude-opus-5-5"
+  MODEL = "claude-sonnet-5-5"
   MAX_TOTAL_USD = "150"
 
 [mounts]
