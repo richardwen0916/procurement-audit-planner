@@ -1,0 +1,63 @@
+test,item,group,row_id,source_file,sheet_row,pay_date,supplier,amount,service,narrative
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:134,Over500_2026_P04_-_published.xlsx,134,2026-07-01,Glen Cleaning Company Ltd,779.78,"Finance, Property & Procurement",Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:135,Over500_2026_P04_-_published.xlsx,135,2026-07-01,Glen Cleaning Company Ltd,894.59,Capital Financing and Income Investment,Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:140,Over500_2026_P04_-_published.xlsx,140,2026-07-01,Glen Cleaning Company Ltd,616.69,Education (DSG Funded) & Other Education Grants,Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:144,Over500_2026_P04_-_published.xlsx,144,2026-07-03,Glen Cleaning Company Ltd,891.09,Development & Housing,Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:133,Over500_2026_P04_-_published.xlsx,133,2026-07-06,Glen Cleaning Company Ltd,863.46,Development & Housing,Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:145,Over500_2026_P04_-_published.xlsx,145,2026-07-06,Glen Cleaning Company Ltd,891.09,Development & Housing,Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:131,Over500_2026_P04_-_published.xlsx,131,2026-07-07,Glen Cleaning Company Ltd,587.5,Community Services,Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:124,Over500_2026_P04_-_published.xlsx,124,2026-07-13,Glen Cleaning Company Ltd,706.95,Children's Social Care,Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:138,Over500_2026_P04_-_published.xlsx,138,2026-07-23,Glen Cleaning Company Ltd,779.78,Children's Social Care,Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:139,Over500_2026_P04_-_published.xlsx,139,2026-07-23,Glen Cleaning Company Ltd,779.78,Children's Social Care,Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:169,Over500_2026_P04_-_published.xlsx,169,2026-07-24,Glen Cleaning Company Ltd,779.78,"Finance, Property & Procurement",Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:396,Over500_2026_P04_-_published.xlsx,396,2026-07-24,Glen Cleaning Company Ltd,616.69,Education (DSG Funded) & Other Education Grants,Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:397,Over500_2026_P04_-_published.xlsx,397,2026-07-24,Glen Cleaning Company Ltd,930.63,Community Services,Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:400,Over500_2026_P04_-_published.xlsx,400,2026-07-24,Glen Cleaning Company Ltd,894.59,Capital Financing and Income Investment,Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:130,Over500_2026_P04_-_published.xlsx,130,2026-07-28,Glen Cleaning Company Ltd,590.79,Children's Social Care,Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:125,Over500_2026_P04_-_published.xlsx,125,2026-07-29,Glen Cleaning Company Ltd,706.95,Children's Social Care,Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:126,Over500_2026_P04_-_published.xlsx,126,2026-07-30,Glen Cleaning Company Ltd,901.77,Community Services,Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:141,Over500_2026_P04_-_published.xlsx,141,2026-07-30,Glen Cleaning Company Ltd,901.77,Community Services,Cleaning
+T-01.2,1,1,Over500_2026_P04_-_published.xlsx:142,Over500_2026_P04_-_published.xlsx,142,2026-07-30,Glen Cleaning Company Ltd,901.77,Community Services,Cleaning
+T-01.2,2,2,Over500_2026_P03_-_published.xlsx:280,Over500_2026_P03_-_published.xlsx,280,2026-06-25,BERKSHIRE MECHANICAL SERVICES,1000.0,Development & Housing,Corporate R&M
+T-01.2,2,2,Over500_2026_P04_-_published.xlsx:146,Over500_2026_P04_-_published.xlsx,146,2026-07-03,BERKSHIRE MECHANICAL SERVICES,800.0,Development & Housing,Cleaning
+T-01.2,2,2,Over500_2026_P04_-_published.xlsx:375,Over500_2026_P04_-_published.xlsx,375,2026-07-03,BERKSHIRE MECHANICAL SERVICES,845.0,Development & Housing,Corporate R&M
+T-01.2,2,2,Over500_2026_P04_-_published.xlsx:48,Over500_2026_P04_-_published.xlsx,48,2026-07-06,BERKSHIRE MECHANICAL SERVICES,975.0,Development & Housing,Corporate R&M
+T-01.2,2,2,Over500_2026_P04_-_published.xlsx:78,Over500_2026_P04_-_published.xlsx,78,2026-07-06,BERKSHIRE MECHANICAL SERVICES,800.0,Development & Housing,Corporate R&M
+T-01.2,2,2,Over500_2026_P04_-_published.xlsx:370,Over500_2026_P04_-_published.xlsx,370,2026-07-08,BERKSHIRE MECHANICAL SERVICES,520.0,Development & Housing,Corporate R&M
+T-01.2,2,2,Over500_2026_P04_-_published.xlsx:49,Over500_2026_P04_-_published.xlsx,49,2026-07-08,BERKSHIRE MECHANICAL SERVICES,650.0,Development & Housing,Corporate R&M
+T-01.2,2,2,Over500_2026_P04_-_published.xlsx:81,Over500_2026_P04_-_published.xlsx,81,2026-07-08,BERKSHIRE MECHANICAL SERVICES,600.0,Development & Housing,Corporate R&M
+T-01.2,2,2,Over500_2026_P04_-_published.xlsx:372,Over500_2026_P04_-_published.xlsx,372,2026-07-09,BERKSHIRE MECHANICAL SERVICES,625.0,Development & Housing,Corporate R&M
+T-01.2,2,2,Over500_2026_P04_-_published.xlsx:50,Over500_2026_P04_-_published.xlsx,50,2026-07-09,BERKSHIRE MECHANICAL SERVICES,1000.0,Development & Housing,Corporate R&M
+T-01.2,2,2,Over500_2026_P04_-_published.xlsx:56,Over500_2026_P04_-_published.xlsx,56,2026-07-09,BERKSHIRE MECHANICAL SERVICES,615.0,Development & Housing,Corporate R&M
+T-01.2,2,2,Over500_2026_P04_-_published.xlsx:57,Over500_2026_P04_-_published.xlsx,57,2026-07-09,BERKSHIRE MECHANICAL SERVICES,900.0,Development & Housing,Corporate R&M
+T-01.2,2,2,Over500_2026_P04_-_published.xlsx:373,Over500_2026_P04_-_published.xlsx,373,2026-07-10,BERKSHIRE MECHANICAL SERVICES,775.0,Development & Housing,Corporate R&M
+T-01.2,3,3,Over500_2026_P02_-_published.xlsx:28,Over500_2026_P02_-_published.xlsx,28,2026-05-13,ANCHOR PIPEWORK LIMITED,890.6,Education & SEND,Corporate R&M
+T-01.2,3,3,Over500_2026_P02_-_published.xlsx:53,Over500_2026_P02_-_published.xlsx,53,2026-05-14,ANCHOR PIPEWORK LIMITED,622.02,"Finance, Property & Procurement",Corporate R&M
+T-01.2,3,3,Over500_2026_P02_-_published.xlsx:15,Over500_2026_P02_-_published.xlsx,15,2026-05-28,ANCHOR PIPEWORK LIMITED,510.5,Adult Social Care,Corporate R&M
+T-01.2,3,3,Over500_2026_P02_-_published.xlsx:16,Over500_2026_P02_-_published.xlsx,16,2026-05-29,ANCHOR PIPEWORK LIMITED,579.63,Adult Social Care,Corporate R&M
+T-01.2,3,3,Over500_2026_P02_-_published.xlsx:24,Over500_2026_P02_-_published.xlsx,24,2026-05-29,ANCHOR PIPEWORK LIMITED,651.6,Adult Social Care,Corporate R&M
+T-01.2,3,3,Over500_2026_P02_-_published.xlsx:52,Over500_2026_P02_-_published.xlsx,52,2026-05-29,ANCHOR PIPEWORK LIMITED,633.55,Environment,Corporate R&M
+T-01.2,3,3,Over500_2026_P02_-_published.xlsx:56,Over500_2026_P02_-_published.xlsx,56,2026-05-29,ANCHOR PIPEWORK LIMITED,883.98,"Finance, Property & Procurement",Corporate R&M
+T-01.2,3,3,Over500_2026_P03_-_published.xlsx:56,Over500_2026_P03_-_published.xlsx,56,2026-06-02,ANCHOR PIPEWORK LIMITED,752.6,Environment,Corporate R&M
+T-01.2,3,3,Over500_2026_P03_-_published.xlsx:48,Over500_2026_P03_-_published.xlsx,48,2026-06-09,ANCHOR PIPEWORK LIMITED,903.68,Community Services,Corporate R&M
+T-01.2,3,3,Over500_2026_P03_-_published.xlsx:57,Over500_2026_P03_-_published.xlsx,57,2026-06-10,ANCHOR PIPEWORK LIMITED,546.25,"Finance, Property & Procurement",Corporate R&M
+T-01.2,4,4,Over500_2026_P04_-_published.xlsx:640,Over500_2026_P04_-_published.xlsx,640,2026-07-02,Stripeweb,544.83,"Finance, Property & Procurement",Charges
+T-01.2,4,4,Over500_2026_P04_-_published.xlsx:643,Over500_2026_P04_-_published.xlsx,643,2026-07-03,Stripeweb,646.03,"Finance, Property & Procurement",Charges
+T-01.2,4,4,Over500_2026_P04_-_published.xlsx:562,Over500_2026_P04_-_published.xlsx,562,2026-07-08,Stripeweb,711.59,"Finance, Property & Procurement",Charges
+T-01.2,4,4,Over500_2026_P04_-_published.xlsx:1018,Over500_2026_P04_-_published.xlsx,1018,2026-07-09,Stripeweb,616.52,"Finance, Property & Procurement",Charges
+T-01.2,4,4,Over500_2026_P04_-_published.xlsx:1019,Over500_2026_P04_-_published.xlsx,1019,2026-07-13,Stripeweb,541.15,"Finance, Property & Procurement",Charges
+T-01.2,4,4,Over500_2026_P04_-_published.xlsx:1020,Over500_2026_P04_-_published.xlsx,1020,2026-07-13,Stripeweb,578.92,"Finance, Property & Procurement",Charges
+T-01.2,4,4,Over500_2026_P04_-_published.xlsx:563,Over500_2026_P04_-_published.xlsx,563,2026-07-17,Stripeweb,506.59,"Finance, Property & Procurement",Charges
+T-01.2,4,4,Over500_2026_P04_-_published.xlsx:644,Over500_2026_P04_-_published.xlsx,644,2026-07-19,Stripeweb,575.59,"Finance, Property & Procurement",Charges
+T-01.2,4,4,Over500_2026_P04_-_published.xlsx:646,Over500_2026_P04_-_published.xlsx,646,2026-07-24,Stripeweb,643.09,"Finance, Property & Procurement",Charges
+T-01.2,4,4,Over500_2026_P04_-_published.xlsx:564,Over500_2026_P04_-_published.xlsx,564,2026-07-30,Stripeweb,636.19,"Finance, Property & Procurement",Charges
+T-01.2,4,4,Over500_2026_P04_-_published.xlsx:647,Over500_2026_P04_-_published.xlsx,647,2026-07-31,Stripeweb,506.22,"Finance, Property & Procurement",Charges
+T-01.2,5,5,Over500_2026_P04_-_published.xlsx:149,Over500_2026_P04_-_published.xlsx,149,2026-07-13,CONNICK TREE CARE,797.76,Environment,Grounds Maintenance
+T-01.2,5,5,Over500_2026_P04_-_published.xlsx:215,Over500_2026_P04_-_published.xlsx,215,2026-07-13,CONNICK TREE CARE,715.85,Environment,Grounds Maintenance
+T-01.2,5,5,Over500_2026_P04_-_published.xlsx:216,Over500_2026_P04_-_published.xlsx,216,2026-07-13,CONNICK TREE CARE,578.24,Environment,Grounds Maintenance
+T-01.2,5,5,Over500_2026_P04_-_published.xlsx:151,Over500_2026_P04_-_published.xlsx,151,2026-07-14,CONNICK TREE CARE,641.69,Environment,Grounds Maintenance
+T-01.2,5,5,Over500_2026_P04_-_published.xlsx:209,Over500_2026_P04_-_published.xlsx,209,2026-07-16,CONNICK TREE CARE,501.13,Environment,Grounds Maintenance
+T-01.2,5,5,Over500_2026_P04_-_published.xlsx:211,Over500_2026_P04_-_published.xlsx,211,2026-07-23,CONNICK TREE CARE,865.2,Environment,Grounds Maintenance
+T-01.2,5,5,Over500_2026_P04_-_published.xlsx:409,Over500_2026_P04_-_published.xlsx,409,2026-07-24,CONNICK TREE CARE,713.5,Environment,Grounds Maintenance
+T-01.2,5,5,Over500_2026_P04_-_published.xlsx:410,Over500_2026_P04_-_published.xlsx,410,2026-07-28,CONNICK TREE CARE,535.6,Environment,Grounds Maintenance
+T-01.2,5,5,Over500_2026_P04_-_published.xlsx:152,Over500_2026_P04_-_published.xlsx,152,2026-07-31,CONNICK TREE CARE,535.6,Environment,Grounds Maintenance

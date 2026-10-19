@@ -12,8 +12,11 @@ for West Berkshire Council from public data. It:
 **Live app:** https://procurement-audit-planner.fly.dev is an independent web harness
 (FastAPI + Claude Agent SDK, hosted on Fly.io). It runs the whole workflow from the browser:
 extract rules, the two analysts, the risk assessor, the auditor gate, the agent team and
-sign-off. Anyone can view the outputs; starting a run needs a passcode. The code is in
-[`harness/`](harness/), [`Dockerfile`](Dockerfile) and [`fly.toml`](fly.toml).
+sign-off. Anyone can view the outputs and run logs; starting a run needs a passcode. It runs
+on `claude-sonnet-5-5` (set by `MODEL` in `fly.toml`). The code is in [`harness/`](harness/),
+[`Dockerfile`](Dockerfile) and [`fly.toml`](fly.toml). A complete Sonnet run from empty outputs
+to sign-off on 2026-10-19 is saved in [`web-run/`](web-run/), with its pack, QA review and
+per-stage logs.
 
 The full system specification is in [`CLAUDE.md`](CLAUDE.md). This README covers:
 
@@ -113,7 +116,8 @@ Each agent keeps how-to lessons (never evidence) in `.claude/agent-memory/<agent
 
 To run it:
 
-1. Set up the environment: `python -m venv .venv && .venv/bin/pip install -r requirements.txt`.
+1. Set up the environment with Python 3.10 or newer (the Docker image uses 3.11):
+   `python3 -m venv .venv && .venv/bin/pip install -r requirements.txt`.
    The verifiers also need `pdftotext` (poppler).
 2. In Claude Code, run the steps in order:
    1. `/extract-rules`
@@ -217,6 +221,9 @@ data/                     public council inputs (read-only)
 scripts/                  clean.py, analyse.py, selfcheck.py, verify_history.py
   checks/                 QA scripts run by the qa-reviewer
 outputs/                  rules, analytics, history, register, signed-off pack
+web-run/                  the hosted app's full run (Sonnet, 2026-10-19): outputs and logs
+harness/                  web app: FastAPI + Claude Agent SDK, deployed with
+                          Dockerfile and fly.toml
 ```
 
 All the data is public:

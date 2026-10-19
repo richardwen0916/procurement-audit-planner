@@ -1,0 +1,161 @@
+{
+  "generated_at": "2026-10-19T05:44:27",
+  "files": [
+    {
+      "file": "Over500_2026_P02_-_published.xlsx",
+      "sheet": "Data to publish",
+      "header_sheet_row": 1,
+      "rows": 2892
+    },
+    {
+      "file": "Over500_2026_P03_-_published.xlsx",
+      "sheet": "Data to publish",
+      "header_sheet_row": 2,
+      "rows": 3547
+    },
+    {
+      "file": "Over500_2026_P04_-_published.xlsx",
+      "sheet": "Data to publish",
+      "header_sheet_row": 2,
+      "rows": 4168
+    }
+  ],
+  "rows_raw": 10607,
+  "rows_after_exclusions": 8534,
+  "gbp_raw": 80427254.26,
+  "gbp_after_exclusions": 66778104.78,
+  "date_min": "2026-05-01",
+  "date_max": "2026-07-31",
+  "months_covered": 3,
+  "distinct_payment_timestamps": 1673,
+  "uncategorised_expenditure_category": {
+    "rows": 87,
+    "gbp": 7834656.02,
+    "note": "blank Expenditure category labelled 'Uncategorised'; kept"
+  },
+  "negative_amounts": 0,
+  "excluded": {
+    "redacted_supplier": {
+      "rows": 2015,
+      "gbp": 2746746.71,
+      "reason": "Supplier shown as 'Redacted' aggregates many payees (often individuals); cannot be used in supplier-level tests."
+    },
+    "pension_statutory": {
+      "rows": 12,
+      "gbp": 9235814.93,
+      "reason": "Pension/LGPS/superannuation contributions are statutory, not procurement."
+    },
+    "inter_authority": {
+      "rows": 46,
+      "gbp": 1666587.84,
+      "reason": "Payments to other public bodies (councils, NHS, police, fire, HMRC, government departments) or joint arrangements are not competitive procurement (Private Contractors narrative kept).",
+      "rows_matched_by_narrative_only": 0
+    }
+  },
+  "tags": {
+    "general_procurement": {
+      "rows": 2126,
+      "gbp": 28318367.76,
+      "suppliers": 518
+    },
+    "care_or_education_placement": {
+      "rows": 5839,
+      "gbp": 30571711.3,
+      "suppliers": 361
+    },
+    "grant": {
+      "rows": 339,
+      "gbp": 6033599.82,
+      "suppliers": 198
+    },
+    "agency_staff": {
+      "rows": 24,
+      "gbp": 1285541.24,
+      "suppliers": 7
+    },
+    "premises_non_procurement": {
+      "rows": 206,
+      "gbp": 568884.66,
+      "suppliers": 31
+    }
+  },
+  "tagging_order": [
+    "care_or_education_placement",
+    "grant",
+    "agency_staff",
+    "premises_non_procurement",
+    "general_procurement"
+  ],
+  "regexes": {
+    "redacted_supplier": "^\\s*REDACTED\\s*$",
+    "pension_statutory_narrative": "LGPS|PENSION|SUPERANNUATION",
+    "inter_authority_supplier": "\\b(COUNCIL|BOROUGH|COUNTY|CNCL|NHS|POLICE|FIRE AUTHORITY|FIRE AND RESCUE|HMRC|HM REVENUE|DEPARTMENT FOR|MINISTRY OF)\\b",
+    "inter_authority_narrative": "JOINT ARRANGEMENTS",
+    "inter_authority_not_if_narrative": "^\\s*PRIVATE CONTRACTORS\\s*$",
+    "tag_placement_service": "^(ADULT SOCIAL CARE|CHILDREN'S SOCIAL CARE|EDUCATION)",
+    "tag_placement_narrative": "^\\s*(PRIVATE CONTRACTORS|OTHER AGENCIES|VOLUNTARY ASSOCIATIONS)\\s*$",
+    "tag_grant": "GRANT",
+    "tag_agency_staff": "AGENCY",
+    "tag_premises_non_procurement": "RENT|RATES|WATER RATES|LEASE"
+  },
+  "normalise_supplier": {
+    "stop_tokens": [
+      "CIC",
+      "CIO",
+      "INC",
+      "LIMITED",
+      "LLC",
+      "LLP",
+      "LTD",
+      "PLC",
+      "THE",
+      "UK"
+    ],
+    "steps": "upper; & -> AND; drop (...) and [...]; drop T/A or T/AS... and TRADING AS... suffix; keep A-Z0-9 space; drop stop tokens; collapse"
+  },
+  "contracts": {
+    "contracts_present": true,
+    "rows_in_file": 150,
+    "organisation_names_kept": {
+      "West Berkshire Council": 115,
+      "West Berkshire": 20,
+      "WEST BERKSHIRE COUNCIL": 6
+    },
+    "organisation_names_dropped": {
+      "Ministry of Defence": 5,
+      "Westworks Procurement Ltd": 1,
+      "SOUTHAMPTON CITY COUNCIL": 1,
+      "CITY OF BRADFORD METROPOLITAN DISTRICT COUNCIL": 1,
+      "Health Education England": 1
+    },
+    "rows_dropped_other_buyers": 9,
+    "rows_dropped_duplicate_notice_id": 0,
+    "rows_for_council": 141,
+    "notices": 141,
+    "notice_supplier_pairs": 210,
+    "notices_without_supplier": 0,
+    "malformed_supplier_blocks": 0,
+    "distinct_suppliers": 143,
+    "pairs_with_companies_house_no": 126,
+    "active_in_window": 62,
+    "ended_before_window": 79,
+    "active_pairs": 131,
+    "ended_pairs": 79,
+    "zero_value_awards": 7,
+    "max_suppliers_on_one_notice": 19,
+    "rows_per_year": {
+      "2021": 7,
+      "2022": 10,
+      "2023": 39,
+      "2024": 52,
+      "2025": 28,
+      "2026": 5
+    },
+    "published_range": [
+      "2021-02-23",
+      "2026-09-09"
+    ],
+    "warnings": []
+  },
+  "register_present": false
+}
